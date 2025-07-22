@@ -4,6 +4,8 @@ import { getAuth } from "../firebase/auth";
 function Dashboard() {
   const [name, setName] = useState("");
   const [progress, setProgress] = useState(60); // Example progress value (out of 100)
+  const [tasks, setTasks] = useState([]);
+  const [taskInput, setTaskInput] = useState("");
 
   useEffect(() => {
     const auth = getAuth();
@@ -14,6 +16,14 @@ function Dashboard() {
       setName("Guest");
     }
   }, []);
+
+  const handleAddTask = () => {
+    const task = taskInput.trim();
+    if (task) {
+      setTasks([...tasks, task]);
+      setTaskInput("");
+    }
+  };
 
   return (
     <div className="dashboard" style={{ padding: 20 }}>
@@ -30,21 +40,28 @@ function Dashboard() {
                   height: "100%",
                   borderRadius: 8,
                   borderWidth: 10,
-                    borderColor: "#b4d865ff",
+                  borderColor: "#b4d865ff",
                   transition: "width 0.5s"
                 }}
               />
             </div>
-            
-      
           </div>
           <div className="to-do-list">
-            <h3>To-Do List</h3>
-                <input type="text" placeholder="Add a new task..." />
-                <button>Add</button>
-            
-
-            </div>
+            <h3>Pending Tasks</h3>
+            <input
+              type="text"
+              placeholder="Add a new task..."
+              value={taskInput}
+              onChange={e => setTaskInput(e.target.value)}
+              onKeyDown={e => { if (e.key === "Enter") handleAddTask(); }}
+            />
+            <button onClick={handleAddTask}>Add</button>
+            <ul>
+              {tasks.map((task, idx) => (
+                <li key={idx} className="task-list">{task}</li>
+              ))}
+            </ul>
+          </div>
         </div>
       </header>
     </div>
