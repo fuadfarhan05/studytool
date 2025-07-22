@@ -130,12 +130,6 @@ function Dashboard() {
       </div>
 
 
-      <div className="dark-toggle">
-        <label className="switch">
-          <input type="checkbox" checked={darkMode} onChange={toggleDarkMode} />
-          <span className="slider"></span>
-        </label>
-      </div>
     </div>
   );
 }
