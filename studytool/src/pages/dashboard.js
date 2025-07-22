@@ -62,6 +62,16 @@ function Dashboard() {
     await deleteDoc(taskRef);
   };
 
+  const clearAllTasks = async () => {
+    const q = collection(db, "users", user.uid, "tasks");
+    const unsubscribe = onSnapshot(q, (snapshot) => {
+      snapshot.docs.forEach(async docSnap => {
+        await deleteDoc(doc(db, "users", user.uid, "tasks", docSnap.id));
+      });
+    });
+    unsubscribe();
+  };
+
   const handleLogout = async () => {
     await signOut(auth);
     navigate("/");
@@ -87,10 +97,10 @@ function Dashboard() {
         <h3>Pending Tasks</h3>
         <ul>
           <AnimatePresence>
-            {tasks.map((task) => (
+            {tasks.filter(task => !task.completed).map((task) => (
               <motion.li
                 key={task.id}
-                className={`task-list ${task.completed ? "completed" : ""}`}
+                className="task-list"
                 initial={{ opacity: 0, x: 50 }}
                 animate={{ opacity: 1, x: 0 }}
                 exit={{ opacity: 0, x: -50 }}
@@ -119,7 +129,7 @@ function Dashboard() {
         <button onClick={handleAddTask}>Add</button>
       </div>
 
-      {/* Dark mode toggle switch */}
+
       <div className="dark-toggle">
         <label className="switch">
           <input type="checkbox" checked={darkMode} onChange={toggleDarkMode} />

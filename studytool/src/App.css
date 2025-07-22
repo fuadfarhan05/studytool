@@ -58,9 +58,9 @@ html, body {
 }
 
 .progress-container {
-  width: 100%;
+  width: 90%;
   height: 12px;
-  background: #e0e0e0;
+  background: #bdbdbd;
   border-radius: 999px;
   overflow: hidden;
 }
@@ -186,81 +186,3 @@ li.task-list.completed {
 }
 
 
-/* Dark Mode */
-.App.dark {
-  background-color: #1a1c1f;
-  color: #f2f2f2;
-}
-
-.App.dark .App-header,
-.App.dark .dashboard-card,
-.App.dark .task-list li {
-  background-color: #2b2d31;
-  color: #e4e4e4;
-}
-
-.App.dark .input-footer {
-  background-color: #1f2125;
-}
-
-.App.dark input[type="text"] {
-  background-color: #2b2d31;
-  color: #f0f0f0;
-  border-color: #444;
-}
-
-.App.dark .progress-container {
-  background: #3a3c3e;
-}
-
-.App.dark .progress-bar {
-  background: linear-gradient(to right, #74f2ce, #38a3a5);
-}
-
-/* Toggle Switch */
-.dark-toggle {
-  position: fixed;
-  bottom: 5.5rem;
-  right: 1.5rem;
-  z-index: 100;
-}
-
-.switch {
-  position: relative;
-  display: inline-block;
-  width: 48px;
-  height: 24px;
-}
-
-.switch input {
-  opacity: 0;
-  width: 0;
-  height: 0;
-}
-
-.slider {
-  position: absolute;
-  top: 0; left: 0; right: 0; bottom: 0;
-  background-color: #ccc;
-  transition: 0.3s;
-  border-radius: 34px;
-}
-
-.slider:before {
-  position: absolute;
-  content: "";
-  height: 18px; width: 18px;
-  left: 3px;
-  bottom: 3px;
-  background-color: white;
-  transition: 0.3s;
-  border-radius: 50%;
-}
-
-input:checked + .slider {
-  background-color: #4fc08d;
-}
-
-input:checked + .slider:before {
-  transform: translateX(24px);
-}
