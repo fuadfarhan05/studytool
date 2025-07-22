@@ -1,232 +1,266 @@
-/* Base Reset and Responsive Setup */
-html {
-  font-size: 16px; /* Ensures 1rem = 16px */
-}
-
-body, html {
+/* Reset & Base Setup */
+html, body {
   margin: 0;
   padding: 0;
+  font-family: 'System-UI', 'Segoe UI', 'Helvetica Neue', sans-serif;
+  background-color: #f2f3f7;
+  color: #1e1e1e;
+  height: 100%;
+  width: 100%;
   overflow-x: hidden;
-  font-family: 'Arial', sans-serif;
-  background-color: #222429;
-  color: white;
 }
 
-/* Layout Containers */
+/* App Wrapper */
 .App {
-  text-align: center;
-  padding: 1rem;
+  display: flex;
+  flex-direction: column;
+  height: 100vh;
+  width: 100%;
 }
 
+/* Header / Top Bar */
 .App-header {
-  background-color: #222429;
-  min-height: 100vh;
+  background-color: #ffffff;
+  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.05);
+  padding: 1rem 1.5rem;
   display: flex;
   flex-direction: column;
   justify-content: flex-start;
-  align-items: center;
-  font-size: 1.25rem;
-  padding: 2rem;
+  align-items: flex-start;
+  position: sticky;
+  top: 0;
+  z-index: 10;
 }
 
-.App h2,
-.App h3 {
-  color: #8bfcb6;
-  margin-bottom: 1rem;
+/* Welcome Title */
+.App-header h3 {
+  font-size: 1.2rem;
+  font-weight: 600;
+  margin: 0 0 0.25rem 0;
+  color: #222;
 }
 
-.App h2 {
-  font-size: 1.8rem;
-}
-
-.App h3 {
-  font-size: 1.4rem;
-}
-
-.App-logo {
-  height: 40vmin;
-  pointer-events: none;
-  animation: App-logo-spin infinite 20s linear;
-}
-
-@keyframes App-logo-spin {
-  from { transform: rotate(0deg); }
-  to { transform: rotate(360deg); }
-}
-
-/* Reusable Card Styles */
-.login-card,
-.dashboard-card,
-.task-list {
-  background-color: #485d53;
+/* Progress Section */
+.dashboard-card {
   width: 100%;
-  max-width: 600px;
-  margin: 2rem auto;
-  padding: 1.5rem;
-  border: 2px solid #b3f8cd;
-  border-radius: 10px;
-  box-shadow: 0 4px 8px rgba(149, 240, 110, 0.3);
-  box-sizing: border-box;
+  background-color: #ffffff;
+  margin-top: 1rem;
+  padding: 1rem 1.5rem;
+  border-radius: 16px;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.06);
 }
 
-/* Buttons */
-button {
-  background-color: #61fb9c;
-  color: #1e1b1b;
+.dashboard-card h2 {
   font-size: 1rem;
-  font-weight: bold;
-  border: none;
-  padding: 0.75rem 1rem;
-  border-radius: 5px;
-  cursor: pointer;
+  font-weight: 500;
+  margin-bottom: 0.5rem;
+  color: #333;
+}
+
+.progress-container {
   width: 100%;
-  transition: background-color 0.2s ease;
+  height: 12px;
+  background: #e0e0e0;
+  border-radius: 999px;
+  overflow: hidden;
 }
 
-button:hover {
-  background-color: #4ecf7a;
+.progress-bar {
+  height: 100%;
+  background: linear-gradient(to right, #57cc99, #38a3a5);
+  width: 0%;
+  transition: width 0.4s ease-in-out;
 }
 
-button:active {
-  background-color: #3dbf6a;
+/* Task Input Area (Sticky Footer Style) */
+.input-footer {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  background: #fff;
+  padding: 1rem 1.5rem;
+  box-shadow: 0 -2px 8px rgba(0, 0, 0, 0.05);
+  display: flex;
+  gap: 0.5rem;
+  z-index: 99;
 }
 
-button:disabled {
-  background-color: #ccc;
-  cursor: not-allowed;
-}
-
-button:disabled:hover,
-button:disabled:active {
-  background-color: #ccc;
-}
-
-/* Input */
 input[type="text"] {
-  width: 100%;
-  padding: 0.75rem;
+  flex: 1;
+  padding: 0.8rem 1rem;
   font-size: 1rem;
-  margin: 0.5rem 0;
   border: 1px solid #ccc;
-  border-radius: 5px;
-  box-sizing: border-box;
+  border-radius: 12px;
+  background-color: #f9f9f9;
 }
 
 input[type="text"]:focus {
-  border-color: #61fb9c;
   outline: none;
+  border-color: #38a3a5;
 }
 
-/* To-Do Items */
-.todo-list {
+/* Add Button */
+button {
+  padding: 0.8rem 1rem;
+  font-size: 1rem;
+  font-weight: 600;
+  background: #38a3a5;
+  color: white;
+  border: none;
+  border-radius: 12px;
+  transition: background 0.3s ease;
+}
+
+button:hover {
+  background: #2e8e8d;
+}
+
+button:disabled {
+  background-color: #aaa;
+  cursor: not-allowed;
+}
+
+/* Task List */
+.task-list {
+  padding: 1rem 1.5rem;
+  margin-bottom: 6rem; /* Space for sticky footer */
+}
+
+.task-list h3 {
+  font-size: 1rem;
+  font-weight: 600;
+  color: #333;
+  margin-bottom: 0.8rem;
+}
+
+/* Task Items */
+li.task-list {
   list-style: none;
-  padding: 0;
-  margin: 0;
-}
-
-.todo-item {
-  background-color: #485d53;
-  color: #fff;
+  background: #ffffff;
   padding: 1rem;
-  margin: 0.5rem 0;
-  border-radius: 5px;
+  margin-bottom: 0.6rem;
+  border-radius: 12px;
+  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.04);
+  font-size: 1rem;
   display: flex;
   justify-content: space-between;
   align-items: center;
-  flex-wrap: wrap;
 }
 
-.todo-item.completed {
+li.task-list.completed {
   text-decoration: line-through;
-  color: #888;
+  color: #aaa;
 }
 
-.todo-item button {
-  margin-top: 0.5rem;
-  width: auto;
+/* Logout Button (Floating Top Right) */
+.logout-button {
+  position: absolute;
+  top: 1rem;
+  right: 1.5rem;
+  background: #ff4d4f;
+  color: white;
+  padding: 0.4rem 1rem;
+  border-radius: 12px;
+  border: none;
   font-size: 0.9rem;
-  padding: 0.5rem 1rem;
+  font-weight: 600;
+  box-shadow: 0 2px 6px rgba(255, 77, 79, 0.2);
+  cursor: pointer;
+  z-index: 100;
 }
 
-/* Responsive Tweaks */
-@media (max-width: 768px) {
+/* Responsive Tuning */
+@media (min-width: 600px) {
   html {
-    font-size: 15px;
+    font-size: 17px;
   }
 
-  .App-header {
-    padding: 1.5rem 1rem;
-    font-size: 1rem;
-  }
-
-  .login-card,
   .dashboard-card,
-  .task-list {
-    width: 95%;
-    padding: 1rem;
-  }
-
-  .App h2 {
-    font-size: 1.5rem;
-  }
-
-  .App h3 {
-    font-size: 1.2rem;
-  }
-
-  .todo-item {
-    flex-direction: column;
-    align-items: flex-start;
-  }
-
-  .todo-item button {
-    width: 100%;
-    margin-top: 0.5rem;
-  }
-
-  input[type="text"] {
-    font-size: 0.95rem;
-    padding: 0.6rem;
-  }
-
-  button {
-    font-size: 0.95rem;
-    padding: 0.75rem;
-  }
-}
-
-@media (max-width: 480px) {
-  html {
-    font-size: 14px;
-  }
-
-  .App-header {
-    padding: 1rem;
-  }
-
-  .App h2 {
-    font-size: 1.3rem;
-  }
-
-  .App h3 {
-    font-size: 1.1rem;
-  }
-
-
-  input[type="text"],
-  button {
-    font-size: 0.9rem;
-    padding: 0.6rem;
-  }
-
-  .todo-item {
-    padding: 0.75rem;
+  .task-list,
+  .input-footer {
+    max-width: 600px;
+    margin-left: auto;
+    margin-right: auto;
   }
 }
 
 
-ul {
-  list-style-type: none;
-  padding-left: 0;
-  margin: 0;
+/* Dark Mode */
+.App.dark {
+  background-color: #1a1c1f;
+  color: #f2f2f2;
+}
+
+.App.dark .App-header,
+.App.dark .dashboard-card,
+.App.dark .task-list li {
+  background-color: #2b2d31;
+  color: #e4e4e4;
+}
+
+.App.dark .input-footer {
+  background-color: #1f2125;
+}
+
+.App.dark input[type="text"] {
+  background-color: #2b2d31;
+  color: #f0f0f0;
+  border-color: #444;
+}
+
+.App.dark .progress-container {
+  background: #3a3c3e;
+}
+
+.App.dark .progress-bar {
+  background: linear-gradient(to right, #74f2ce, #38a3a5);
+}
+
+/* Toggle Switch */
+.dark-toggle {
+  position: fixed;
+  bottom: 5.5rem;
+  right: 1.5rem;
+  z-index: 100;
+}
+
+.switch {
+  position: relative;
+  display: inline-block;
+  width: 48px;
+  height: 24px;
+}
+
+.switch input {
+  opacity: 0;
+  width: 0;
+  height: 0;
+}
+
+.slider {
+  position: absolute;
+  top: 0; left: 0; right: 0; bottom: 0;
+  background-color: #ccc;
+  transition: 0.3s;
+  border-radius: 34px;
+}
+
+.slider:before {
+  position: absolute;
+  content: "";
+  height: 18px; width: 18px;
+  left: 3px;
+  bottom: 3px;
+  background-color: white;
+  transition: 0.3s;
+  border-radius: 50%;
+}
+
+input:checked + .slider {
+  background-color: #4fc08d;
+}
+
+input:checked + .slider:before {
+  transform: translateX(24px);
 }

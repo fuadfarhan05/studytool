@@ -1,69 +1,131 @@
 import React, { useEffect, useState } from "react";
-import { getAuth } from "../firebase/auth";
+import { getAuth, signOut } from "firebase/auth";
+import { useNavigate } from "react-router-dom";
+import { motion, AnimatePresence } from "framer-motion";
+import { db } from "../firebase/auth";
+import {
+  collection, addDoc, onSnapshot,
+  updateDoc, doc, deleteDoc
+} from "firebase/firestore";
 
 function Dashboard() {
-  const [name, setName] = useState("");
-  const [progress, setProgress] = useState(60); // Example progress value (out of 100)
+  const [name, setName] = useState("User");
   const [tasks, setTasks] = useState([]);
   const [taskInput, setTaskInput] = useState("");
+  const [progress, setProgress] = useState(0);
+  const [darkMode, setDarkMode] = useState(false);
+  const navigate = useNavigate();
+
+  const auth = getAuth();
+  const user = auth.currentUser;
 
   useEffect(() => {
-    const auth = getAuth();
-    const user = auth.currentUser;
     if (user) {
       setName(user.displayName || "User");
-    } else {
-      setName("Guest");
+      const q = collection(db, "users", user.uid, "tasks");
+      const unsubscribe = onSnapshot(q, (snapshot) => {
+        const updated = snapshot.docs.map(doc => ({
+          id: doc.id,
+          ...doc.data()
+        }));
+        setTasks(updated);
+        updateProgress(updated);
+      });
+      return () => unsubscribe();
     }
-  }, []);
+  }, [user]);
 
-  const handleAddTask = () => {
-    const task = taskInput.trim();
-    if (task) {
-      setTasks([...tasks, task]);
+  const updateProgress = (list) => {
+    const total = list.length;
+    const completed = list.filter(t => t.completed).length;
+    setProgress(total === 0 ? 0 : Math.round((completed / total) * 100));
+  };
+
+  const handleAddTask = async () => {
+    const text = taskInput.trim();
+    if (text && user) {
+      await addDoc(collection(db, "users", user.uid, "tasks"), {
+        text,
+        completed: false,
+      });
       setTaskInput("");
     }
   };
 
+  const toggleTaskCompletion = async (taskId, current) => {
+    const taskRef = doc(db, "users", user.uid, "tasks", taskId);
+    await updateDoc(taskRef, { completed: !current });
+  };
+
+  const deleteTask = async (taskId) => {
+    const taskRef = doc(db, "users", user.uid, "tasks", taskId);
+    await deleteDoc(taskRef);
+  };
+
+  const handleLogout = async () => {
+    await signOut(auth);
+    navigate("/");
+  };
+
+  const toggleDarkMode = () => setDarkMode(!darkMode);
+
   return (
-    <div className="dashboard" style={{ padding: 20 }}>
-      <header>
-        <div className="dashboard-header">
-          <h3 className="left">Welcome, {name}</h3>
-          <div className="dashboard-card">
-            <h2>Your Progress:</h2>
-            <div style={{ background: "#eee", borderRadius: 8, height: 24, width: "90%", marginBottom: 20, marginLeft: 10 }}>
-              <div
-                style={{
-                  width: `${progress}%`,
-                  background: "#8bfcb6",
-                  height: "100%",
-                  borderRadius: 8,
-                  borderWidth: 10,
-                  borderColor: "#b4d865ff",
-                  transition: "width 0.5s"
-                }}
-              />
-            </div>
-          </div>
-          <div className="to-do-list">
-            <h3>Pending Tasks</h3>
-            <input
-              type="text"
-              placeholder="Add a new task..."
-              value={taskInput}
-              onChange={e => setTaskInput(e.target.value)}
-              onKeyDown={e => { if (e.key === "Enter") handleAddTask(); }}
-            />
-            <button onClick={handleAddTask}>Add</button>
-            <ul>
-              {tasks.map((task, idx) => (
-                <li key={idx} className="task-list">{task}</li>
-              ))}
-            </ul>
-          </div>
-        </div>
+    <div className={`App ${darkMode ? "dark" : ""}`}>
+      <header className="App-header">
+        <h3>Welcome, {name}</h3>
+        <button className="logout-button" onClick={handleLogout}>Log Out</button>
       </header>
+
+      <div className="dashboard-card">
+        <h2>Your Progress:</h2>
+        <div className="progress-container">
+          <div className="progress-bar" style={{ width: `${progress}%` }} />
+        </div>
+      </div>
+
+      <div className="task-list">
+        <h3>Pending Tasks</h3>
+        <ul>
+          <AnimatePresence>
+            {tasks.map((task) => (
+              <motion.li
+                key={task.id}
+                className={`task-list ${task.completed ? "completed" : ""}`}
+                initial={{ opacity: 0, x: 50 }}
+                animate={{ opacity: 1, x: 0 }}
+                exit={{ opacity: 0, x: -50 }}
+                transition={{ duration: 0.3 }}
+                onClick={() => toggleTaskCompletion(task.id, task.completed)}
+                onContextMenu={(e) => {
+                  e.preventDefault();
+                  deleteTask(task.id);
+                }}
+              >
+                {task.text}
+              </motion.li>
+            ))}
+          </AnimatePresence>
+        </ul>
+      </div>
+
+      <div className="input-footer">
+        <input
+          type="text"
+          placeholder="Add a new task..."
+          value={taskInput}
+          onChange={(e) => setTaskInput(e.target.value)}
+          onKeyDown={(e) => e.key === "Enter" && handleAddTask()}
+        />
+        <button onClick={handleAddTask}>Add</button>
+      </div>
+
+      {/* Dark mode toggle switch */}
+      <div className="dark-toggle">
+        <label className="switch">
+          <input type="checkbox" checked={darkMode} onChange={toggleDarkMode} />
+          <span className="slider"></span>
+        </label>
+      </div>
     </div>
   );
 }
