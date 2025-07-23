@@ -1,7 +1,7 @@
 import { initializeApp } from "firebase/app";
 import { getAnalytics } from "firebase/analytics";
 import { getFirestore } from "firebase/firestore";
-import { getAuth, signInWithPopup, GoogleAuthProvider } from "firebase/auth";
+import { getAuth, signInWithPopup, signInWithRedirect, GoogleAuthProvider } from "firebase/auth";
 
 const firebaseConfig = {
   apiKey: process.env.REACT_APP_FIREBASE_API_KEY,
@@ -21,8 +21,17 @@ export const db = getFirestore(app);
 const auth = getAuth(app);
 const provider = new GoogleAuthProvider();
 
-export const signInWithGoogle = () => {
-  return signInWithPopup(auth,provider);
+export const signInWithGoogle = async () => {
+  try {
+    return await signInWithPopup(auth, provider);
+  } catch (error) {
+    if (error.code === "auth/popup-blocked") {
+      return signInWithRedirect(auth, provider);
+    } else {
+      throw error;
+    }
+  }
 };
+
 
 export { auth, getAuth, GoogleAuthProvider };
