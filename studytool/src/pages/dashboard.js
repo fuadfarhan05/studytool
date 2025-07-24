@@ -4,7 +4,7 @@ import { useNavigate } from "react-router-dom";
 import { motion, AnimatePresence } from "framer-motion";
 import { db } from "../firebase/auth";
 import {
-  collection, addDoc, onSnapshot,
+  collection, getDocs, addDoc, onSnapshot,
   updateDoc, doc, deleteDoc
 } from "firebase/firestore";
 
@@ -63,14 +63,22 @@ function Dashboard() {
   };
 
   const clearAllTasks = async () => {
+  if (!user) return;
+
+  try {
     const q = collection(db, "users", user.uid, "tasks");
-    const unsubscribe = onSnapshot(q, (snapshot) => {
-      snapshot.docs.forEach(async docSnap => {
-        await deleteDoc(doc(db, "users", user.uid, "tasks", docSnap.id));
-      });
-    });
-    unsubscribe();
-  };
+    const snapshot = await getDocs(q);
+
+    const deletions = snapshot.docs.map(docSnap =>
+      deleteDoc(doc(db, "users", user.uid, "tasks", docSnap.id))
+    );
+
+    await Promise.all(deletions);
+    console.log("All tasks cleared.");
+  } catch (err) {
+    console.error("Error clearing tasks:", err);
+  }
+};;
 
   const handleLogout = async () => {
     await signOut(auth);
@@ -127,6 +135,7 @@ function Dashboard() {
           onKeyDown={(e) => e.key === "Enter" && handleAddTask()}
         />
         <button onClick={handleAddTask}>Add</button>
+        <button onClick={clearAllTasks}>Reset Progress</button>
       </div>
 
 
