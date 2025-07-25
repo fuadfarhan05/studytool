@@ -7,6 +7,7 @@ import {
   collection, getDocs, addDoc, onSnapshot,
   updateDoc, doc, deleteDoc
 } from "firebase/firestore";
+import Sidebar from "../component/sidebar";
 
 function Dashboard() {
   const [name, setName] = useState("User");
@@ -90,6 +91,7 @@ function Dashboard() {
   return (
     <div className={`App ${darkMode ? "dark" : ""}`}>
       <button className="logout-button" onClick={handleLogout}>Log Out</button>
+      <Sidebar />
       <header className="App-header">
         <h3>Welcome, {name}</h3>
       </header>
