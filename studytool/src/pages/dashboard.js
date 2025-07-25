@@ -102,7 +102,7 @@ function Dashboard() {
       </div>
 
       <div className="task-list">
-        <h3>Pending Tasks</h3>
+        <h3>You are studying...</h3>
         <ul>
           <AnimatePresence>
             {tasks.filter(task => !task.completed).map((task) => (
