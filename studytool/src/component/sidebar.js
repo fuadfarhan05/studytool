@@ -1,24 +1,23 @@
 import React, { useState } from "react";
 import {
-  HiArrowSmRight,
-  HiChartPie,
-  HiInbox,
-  HiShoppingBag,
-  HiTable,
-  HiUser,
-  HiViewBoards,
+  HiArrowCircleDown,
+  HiClipboardCheck,
+  HiBookOpen,
+  HiOutlineColorSwatch,
 } from "react-icons/hi";
+import { useNavigate } from "react-router-dom";
 import "../App.css";
 
 const menuItems = [
-  { icon: HiUser, label: "Dashboard" },
-  { icon: HiShoppingBag, label: "Upload" },
-  { icon: HiTable, label: "Flashcards" },
-  { icon: HiArrowSmRight, label: "Study Tables" },
+  { icon: HiClipboardCheck, label: "Dashboard", route: "/dashboard" },
+  { icon: HiArrowCircleDown, label: "Upload", route: "/upload" },
+  { icon: HiOutlineColorSwatch, label: "Flashcards", route: "/flashcards" },
+  { icon: HiBookOpen, label: "Study Tables", route: "/studytable" },
 ];
 
 function Sidebar() {
   const [open, setOpen] = useState(true);
+  const navigate = useNavigate();
 
   return (
     <>
@@ -59,7 +58,12 @@ function Sidebar() {
         <ul className="sidebar-items" style={{ padding: open ? "20px 0" : 0 }}>
           {open &&
             menuItems.map((item, index) => (
-              <li key={index} className="sidebar-item">
+              <li
+                key={index}
+                className="sidebar-item"
+                style={{ cursor: "pointer" }}
+                onClick={() => navigate(item.route)}
+              >
                 <item.icon className="sidebar-icon" />
                 <span className="sidebar-label">{item.label}</span>
                 {item.badge && <span className="sidebar-badge">{item.badge}</span>}

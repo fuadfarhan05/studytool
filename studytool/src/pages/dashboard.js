@@ -101,6 +101,7 @@ function Dashboard() {
         <div className="progress-container">
           <div className="progress-bar" style={{ width: `${progress}%` }} />
         </div>
+        <button className="reset" onClick={clearAllTasks}>Reset Progress</button>
       </div>
 
       <div className="task-list">
@@ -137,7 +138,6 @@ function Dashboard() {
           onKeyDown={(e) => e.key === "Enter" && handleAddTask()}
         />
         <button onClick={handleAddTask}>Add</button>
-        <button onClick={clearAllTasks}>Reset Progress</button>
       </div>
 
 

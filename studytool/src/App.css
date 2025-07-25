@@ -167,6 +167,23 @@ button:disabled {
   cursor: not-allowed;
 }
 
+.reset {
+  margin-top: 10px;
+  background: linear-gradient(to right, #ff416c, #ff4b2b);
+  color: white;
+  padding: 0.6rem 1.2rem;
+  border-radius: 14px;
+  border: none;
+  font-size: 0.95rem;
+  font-weight: 700;
+  box-shadow: 0 4px 16px rgba(255, 65, 108, 0.4);
+  cursor: pointer;
+}
+.reset:hover {
+  background: linear-gradient(to right, #e63e5c, #e03b21);
+}   
+
+
 /* Task List */
 .task-list {
   padding: 2rem;
@@ -249,11 +266,12 @@ li.task-list.completed {
 .sidebar {
   width: 250px;
   height: 100vh;
-  background: rgba(31, 41, 55, 0.7); /* glassmorphism effect */
+  background: rgb(29, 46, 39); /* glassmorphism effect */
   backdrop-filter: blur(16px);
   -webkit-backdrop-filter: blur(16px);
   color: #ffffff;
   padding-top: 30px;
+  font-weight: bold;
   box-shadow: 4px 0 20px rgba(0, 0, 0, 0.5);
   border-right: 1px solid rgba(255, 255, 255, 0.1);
   position: fixed;
@@ -334,4 +352,40 @@ li.task-list.completed {
   color: #ffffff;
   font-weight: bold;
   box-shadow: 0 0 6px rgba(129, 254, 179, 0.8);
+}
+
+.table-card {
+  width: 220px;
+  height: 320px;
+  background: rgba(34, 53, 39, 0.95);
+  border-radius: 18px;
+  box-shadow:
+    0 0 24px 6px #00f5a0,
+    0 8px 32px rgba(0, 245, 160, 0.25),
+    0 1.5px 8px rgba(0,0,0,0.25);
+  border: 2.5px solid #00f5a0;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  position: relative;
+  margin: 24px auto;
+  animation: glowGreen 2.5s ease-in-out infinite alternate;
+}
+
+@keyframes glowGreen {
+  0% {
+    box-shadow:
+      0 0 24px 6px #00f5a0,
+      0 8px 32px rgba(136, 224, 193, 0.25),
+      0 1.5px 8px rgba(0,0,0,0.25);
+    border-color: #00f5a0;
+  }
+  100% {
+    box-shadow:
+      0 0 36px 12px #8bfcb6,
+      0 12px 40px rgba(139, 252, 182, 0.35),
+      0 2px 12px rgba(0,0,0,0.28);
+    border-color: #8bfcb6;
+  }
 }
