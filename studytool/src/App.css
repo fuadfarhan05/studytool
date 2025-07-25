@@ -357,13 +357,16 @@ li.task-list.completed {
 .table-card {
   width: 220px;
   height: 320px;
-  background: rgba(34, 53, 39, 0.95);
+  /* Replace solid color with a wood texture image */
+    background: url('https://www.transparenttextures.com/patterns/wood-pattern.png'), #87693a;
+  background-size: cover;
+  background-repeat: repeat;
   border-radius: 18px;
   box-shadow:
-    0 0 24px 6px #00f5a0,
+    0 0 24px 6px #7beca6,
     0 8px 32px rgba(0, 245, 160, 0.25),
     0 1.5px 8px rgba(0,0,0,0.25);
-  border: 2.5px solid #00f5a0;
+  border: 2.5px solid #343736;
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -376,16 +379,16 @@ li.task-list.completed {
 @keyframes glowGreen {
   0% {
     box-shadow:
-      0 0 24px 6px #00f5a0,
+      0 0 24px 6px #58ec96,
       0 8px 32px rgba(136, 224, 193, 0.25),
       0 1.5px 8px rgba(0,0,0,0.25);
-    border-color: #00f5a0;
+    border-color: #65f198;
   }
   100% {
     box-shadow:
-      0 0 36px 12px #8bfcb6,
+      0 0 36px 12px #6462f4d6,
       0 12px 40px rgba(139, 252, 182, 0.35),
       0 2px 12px rgba(0,0,0,0.28);
-    border-color: #8bfcb6;
+    border-color: #5b66fc;
   }
 }
