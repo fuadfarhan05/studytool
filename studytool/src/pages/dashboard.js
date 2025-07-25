@@ -89,9 +89,9 @@ function Dashboard() {
 
   return (
     <div className={`App ${darkMode ? "dark" : ""}`}>
+      <button className="logout-button" onClick={handleLogout}>Log Out</button>
       <header className="App-header">
         <h3>Welcome, {name}</h3>
-        <button className="logout-button" onClick={handleLogout}>Log Out</button>
       </header>
 
       <div className="dashboard-card">

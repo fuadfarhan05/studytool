@@ -210,8 +210,8 @@ li.task-list.completed {
 /* Logout Button */
 .logout-button {
   position: absolute;
-  top: 1.25rem;
-  right: 2rem;
+  top: 2.5rem;
+  right: 3rem;
   background: linear-gradient(to right, #ff416c, #ff4b2b);
   color: white;
   padding: 0.6rem 1.2rem;
