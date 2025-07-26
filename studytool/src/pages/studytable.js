@@ -3,7 +3,6 @@ import Sidebar from "../component/sidebar";
 import "../App.css";
 
 import {
-  collection,
   doc,
   setDoc,
   getDoc,
@@ -13,7 +12,6 @@ import { db } from "../firebase/auth";
 import { getAuth } from "firebase/auth";
 
 function StudyTable() {
-  const [rows, setRows] = useState([{ subject: "", notes: "" }]);
   const [roomCode, setRoomCode] = useState("");
   const [timer, setTimer] = useState(0);
   const [timerActive, setTimerActive] = useState(false);
@@ -25,16 +23,6 @@ function StudyTable() {
   useEffect(() => {
     return () => clearInterval(timerRef.current);
   }, []);
-
-  const handleChange = (index, field, value) => {
-    const updatedRows = [...rows];
-    updatedRows[index][field] = value;
-    setRows(updatedRows);
-  };
-
-  const addRow = () => {
-    setRows([...rows, { subject: "", notes: "" }]);
-  };
 
   const generateRoomCode = () => {
     const chars = "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
