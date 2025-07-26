@@ -355,8 +355,8 @@ li.task-list.completed {
 }
 
 .table-card {
-  width: 220px;
-  height: 320px;
+  width: 350px;
+  height: 520px;
   /* Replace solid color with a wood texture image */
     background: url('https://www.transparenttextures.com/patterns/wood-pattern.png'), #87693a;
   background-size: cover;
