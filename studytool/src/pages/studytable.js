@@ -16,6 +16,8 @@ function StudyTable() {
   const [timer, setTimer] = useState(0);
   const [timerActive, setTimerActive] = useState(false);
   const [currentRoom, setCurrentRoom] = useState(null);
+  const [members, setMembers] = useState([]); 
+
 
   const timerRef = useRef(null);
 
@@ -25,7 +27,7 @@ function StudyTable() {
   }, []);
 
   const generateRoomCode = () => {
-    const chars = "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
+    const chars = "ABCDEFGHIJKLMNPQRSTUVWXYZ123456789";
     let code = "";
     for (let i = 0; i < 6; i++) {
       code += chars.charAt(Math.floor(Math.random() * chars.length));
@@ -37,6 +39,11 @@ function StudyTable() {
     const roomRef = doc(db, "rooms", code);
     onSnapshot(roomRef, (docSnap) => {
       const data = docSnap.data();
+      if (!data) return;
+
+      setMembers(data.members || []);
+
+
       if (data?.timer?.active) {
         const now = Date.now();
         const endTime = data.timer.startTime + data.timer.duration * 1000;
@@ -190,35 +197,7 @@ function StudyTable() {
     <div className="study-table" style={{ maxWidth: 600, margin: "auto", padding: 20 }}>
       <Sidebar />
 
-      <div className="table-card">
-        <h2>Set Timer for</h2>
-        <button className="button1" onClick={() => startTimer(60)}>1 hour</button>
-        <button className="button2" onClick={() => startTimer(120)}>2 hours</button>
-
-        <div style={{ margin: "20px 0", fontSize: 32, fontWeight: "bold", color: "#8bfcb6" }}>
-          {timer > 0 ? formatTime(timer) : "00:00"}
-        </div>
-
-        {timerActive && (
-          <button
-            onClick={() => stopTimer()}
-            style={{
-              marginBottom: "15px",
-              padding: "8px 16px",
-              borderRadius: "8px",
-              background: "#ff6b6b",
-              color: "#fff",
-              border: "none",
-              fontWeight: "bold",
-              fontSize: "16px",
-              cursor: "pointer"
-            }}
-          >
-            Stop Timer
-          </button>
-        )}
-
-        <div style={{ marginTop: 30, width: "100%", textAlign: "center" }}>
+      <div style={{ marginTop: 30, width: "100%", textAlign: "center" }}>
           <input
             type="text"
             placeholder="Enter room code"
@@ -268,6 +247,55 @@ function StudyTable() {
             Create Room
           </button>
         </div>
+
+
+      <div className="table-card">
+        <div style={{ display: "flex", justifyContent: "center", marginTop: 100 }}>
+  {members.map((member, index) => (
+            <div
+              key={member}
+              style={{
+                width: 80,
+                marginLeft: index === 0 ? 20 : -500,
+                height: 80,
+                border: "5px solid #ffffff",
+                borderRadius: "50%",
+                background: member === getAuth().currentUser?.uid ? "#8bfcb6" : "#e061f3ff",
+                marginRight: 20,
+                boxShadow: "0 0 24px 4px #b1edf5ff",
+                flexShrink: 0,
+                transition: "transform 0.3s"
+              }}
+            />
+          ))}
+        </div>
+
+        <h2>Set Timer for</h2>
+        <button className="button1" onClick={() => startTimer(60)}>1 hour</button>
+        <button className="button2" onClick={() => startTimer(120)}>2 hours</button>
+
+        <div style={{ margin: "20px 0", fontSize: 32, fontWeight: "bold", color: "#8bfcb6" }}>
+          {timer > 0 ? formatTime(timer) : "00:00"}
+        </div>
+
+        {timerActive && (
+          <button
+            onClick={() => stopTimer()}
+            style={{
+              marginBottom: "15px",
+              padding: "8px 16px",
+              borderRadius: "8px",
+              background: "#ff6b6b",
+              color: "#fff",
+              border: "none",
+              fontWeight: "bold",
+              fontSize: "16px",
+              cursor: "pointer"
+            }}
+          >
+            Stop Timer
+          </button>
+        )}
       </div>
     </div>
   );

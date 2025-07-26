@@ -358,7 +358,7 @@ li.task-list.completed {
   width: 300px;
   height: 500px;
   /* Replace solid color with a wood texture image */
-    background: url('https://www.transparenttextures.com/patterns/wood-pattern.png'), #87693a;
+  background: url('https://www.transparenttextures.com/patterns/wood-pattern.png'), #87693a;
   background-size: cover;
   background-repeat: repeat;
   border-radius: 18px;
@@ -371,8 +371,7 @@ li.task-list.completed {
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  position: relative;
-  margin: 24px auto;
+  margin: 100px auto;
   animation: glowGreen 2.5s ease-in-out infinite alternate;
 }
 
