@@ -22,8 +22,8 @@ function StudyTable() {
       <Sidebar />
       <div className="table-card">
             <h2>Set Timer for</h2>
-            <button>30 min</button>
-            <button>1 hour</button>
+            <button className="button1">30 min</button>
+            <button className="button2">1 hour</button>
 
         
         </div>

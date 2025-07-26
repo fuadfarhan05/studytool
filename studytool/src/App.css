@@ -392,3 +392,34 @@ li.task-list.completed {
     border-color: #5b66fc;
   }
 }
+
+
+.button1 {
+  margin-top: 10px;
+  bottom: 16px;
+  transform: translateX(-2%);
+  background: linear-gradient(135deg, #00f5a0);
+  color: #1a1a2e;
+  padding: 8px 16px;
+  border: none;
+  border-radius: 12px;
+  font-size: 14px;
+  font-weight: bold;
+  cursor: pointer;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+}
+
+.button2 {
+  margin-top: 10px;
+  bottom: 16px;
+  transform: translateX(-2%);
+  background: linear-gradient(135deg, ##00f5a0);
+  color: #1a1a2e;
+  padding: 8px 16px;
+  border: none;
+  border-radius: 12px;
+  font-size: 14px;
+  font-weight: bold;
+  cursor: pointer;
+  box-shadow: 0 4px 12px rgba(135, 235, 165, 0.499);
+}

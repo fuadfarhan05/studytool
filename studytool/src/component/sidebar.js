@@ -32,8 +32,8 @@ function Sidebar() {
           transition: "left 0.3s",
           borderRadius: 8,
           padding: "8px 12px",
-          background: "#1d201eff",
-          color: "#8bfcb6",
+          background: open ? "#e7e1e1ff" : "#193d25ff",
+          color: open ? "#ec3e38ff": "#8bfcb6",
           border: "none",
           cursor: "pointer",
           marginTop: 80,
@@ -51,7 +51,7 @@ function Sidebar() {
           top: 0,
           left: 0,
           height: "100vh",
-          background: "#222429",
+          background: "#292b49ff",
           zIndex: 1000,
         }}
       >
