@@ -355,22 +355,18 @@ li.task-list.completed {
 }
 
 .table-card {
-  width: 300px;
-  height: 500px;
+  width: 400px;
+  height: 310px;
   /* Replace solid color with a wood texture image */
   background: url('https://www.transparenttextures.com/patterns/wood-pattern.png'), #87693a;
   background-size: cover;
   background-repeat: repeat;
   border-radius: 18px;
-  box-shadow:
-    0 0 24px 6px #7beca6,
-    0 8px 32px rgba(0, 245, 160, 0.25),
-    0 1.5px 8px rgba(0,0,0,0.25);
-  border: 2.5px solid #343736;
   display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: center;
+  margin-top: 20px;
   margin: 100px auto;
   animation: glowGreen 2.5s ease-in-out infinite alternate;
 }

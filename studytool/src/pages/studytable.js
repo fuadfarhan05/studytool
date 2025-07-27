@@ -18,10 +18,8 @@ function StudyTable() {
   const [currentRoom, setCurrentRoom] = useState(null);
   const [members, setMembers] = useState([]); 
 
-
   const timerRef = useRef(null);
 
-  // Cleanup interval on unmount
   useEffect(() => {
     return () => clearInterval(timerRef.current);
   }, []);
@@ -43,7 +41,6 @@ function StudyTable() {
 
       setMembers(data.members || []);
 
-
       if (data?.timer?.active) {
         const now = Date.now();
         const endTime = data.timer.startTime + data.timer.duration * 1000;
@@ -52,10 +49,10 @@ function StudyTable() {
         if (remaining > 0) {
           startLocalTimer(remaining);
         } else {
-          stopTimer(false); // don't write to Firebase if it ended naturally
+          stopTimer(false);
         }
       } else {
-        stopTimer(false); // sync stop across clients
+        stopTimer(false);
       }
     });
   };
@@ -198,75 +195,89 @@ function StudyTable() {
       <Sidebar />
 
       <div style={{ marginTop: 30, width: "100%", textAlign: "center" }}>
-          <input
-            type="text"
-            placeholder="Enter room code"
-            value={roomCode}
-            onChange={e => setRoomCode(e.target.value)}
-            style={{
-              padding: "10px",
-              borderRadius: "8px",
-              border: "1.5px solid #8bfcb6",
-              marginRight: "10px",
-              width: "60%",
-              fontSize: "16px"
-            }}
-          />
-          <button 
-            onClick={handleJoinRoom}
-            style={{
-              marginTop: "10px",
-              marginLeft: "10px",
-              padding: "10px 18px",
-              borderRadius: "8px",
-              background: "#8bfcb6",
-              color: "#222429",
-              border: "none",
-              fontWeight: "bold",
-              fontSize: "16px",
-              cursor: "pointer"
-            }}
-          >
-            Join Room
-          </button>
-          <button
-            onClick={handleCreateRoom}
-            style={{
-              marginTop: "10px",
-              marginLeft: "10px",
-              padding: "10px 18px",
-              borderRadius: "8px",
-              background: "#00d9f5",
-              color: "#222429",
-              border: "none",
-              fontWeight: "bold",
-              fontSize: "16px",
-              cursor: "pointer"
-            }}
-          >
-            Create Room
-          </button>
-        </div>
-
+        <input
+          type="text"
+          placeholder="Enter room code"
+          value={roomCode}
+          onChange={e => setRoomCode(e.target.value)}
+          style={{
+            padding: "10px",
+            borderRadius: "8px",
+            border: "1.5px solid #8bfcb6",
+            marginRight: "10px",
+            width: "60%",
+            fontSize: "16px"
+          }}
+        />
+        <button 
+          onClick={handleJoinRoom}
+          style={{
+            marginTop: "10px",
+            marginLeft: "10px",
+            padding: "10px 18px",
+            borderRadius: "8px",
+            background: "#8bfcb6",
+            color: "#222429",
+            border: "none",
+            fontWeight: "bold",
+            fontSize: "16px",
+            cursor: "pointer"
+          }}
+        >
+          Join Room
+        </button>
+        <button
+          onClick={handleCreateRoom}
+          style={{
+            marginTop: "10px",
+            marginLeft: "10px",
+            padding: "10px 18px",
+            borderRadius: "8px",
+            background: "#00d9f5",
+            color: "#222429",
+            border: "none",
+            fontWeight: "bold",
+            fontSize: "16px",
+            cursor: "pointer"
+          }}
+        >
+          Create Room
+        </button>
+      </div>
 
       <div className="table-card">
-        <div style={{ display: "flex", justifyContent: "center", marginTop: 100 }}>
-  {members.map((member, index) => (
-            <div
-              key={member}
-              style={{
-                width: 80,
-                marginLeft: index === 0 ? 20 : -500,
-                height: 80,
-                border: "5px solid #ffffff",
-                borderRadius: "50%",
-                background: member === getAuth().currentUser?.uid ? "#8bfcb6" : "#e061f3ff",
-                marginRight: 20,
-                boxShadow: "0 0 24px 4px #b1edf5ff",
-                flexShrink: 0,
-                transition: "transform 0.3s"
-              }}
-            />
+        <div style={{ 
+          display: "flex", 
+          justifyContent: "center", 
+          flexWrap: "wrap", 
+          gap: "40px", 
+          marginTop: "100px" 
+        }}>
+          {members.map((member) => (
+            <div key={member} style={{ display: "flex", flexDirection: "column", alignItems: "center", gap: "16px" }}>
+              {/* Circle */}
+              <div
+                style={{
+                  width: 50,
+                  height: 50,
+                  border: "5px solid #fbf182ff",
+                  borderRadius: "50%",
+                  background: member === getAuth().currentUser?.uid ? "#8bfcb6" : "#e061f3ff",
+                  boxShadow: "0 0 24px 4px #b1edf5ff",
+                  transition: "transform 0.3s",
+                  marginTop: -100,
+                }}
+              />
+              {/* Square */}
+              <div
+                style={{
+                  width: 60,
+                  height: 80,
+                  border: "5px solid #ffffff",
+                  background: "#ffffffff",
+                }}
+              />
+            </div>
           ))}
         </div>
 
@@ -274,7 +285,7 @@ function StudyTable() {
         <button className="button1" onClick={() => startTimer(60)}>1 hour</button>
         <button className="button2" onClick={() => startTimer(120)}>2 hours</button>
 
-        <div style={{ margin: "20px 0", fontSize: 32, fontWeight: "bold", color: "#8bfcb6" }}>
+        <div style={{ marginTop: "100px", margin: "20px 0", fontSize: 40, fontWeight: "bold", color: "#000000ff", background: "#acf5c9ff", padding: "20px", borderRadius: "10px" }}>
           {timer > 0 ? formatTime(timer) : "00:00"}
         </div>
 
