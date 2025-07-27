@@ -355,7 +355,7 @@ li.task-list.completed {
 }
 
 .table-card {
-  width: 400px;
+  width: 360px;
   height: 310px;
   /* Replace solid color with a wood texture image */
   background: url('https://www.transparenttextures.com/patterns/wood-pattern.png'), #87693a;
@@ -366,8 +366,8 @@ li.task-list.completed {
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  margin-top: 20px;
-  margin: 100px auto;
+  margin-top: 150px;
+  margin-left: -20px;
   animation: glowGreen 2.5s ease-in-out infinite alternate;
 }
 
