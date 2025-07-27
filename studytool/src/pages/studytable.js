@@ -1,3 +1,4 @@
+// StudyTable.js
 import React, { useState, useRef, useEffect } from "react";
 import Sidebar from "../component/sidebar";
 import "../App.css";
@@ -16,7 +17,7 @@ function StudyTable() {
   const [timer, setTimer] = useState(0);
   const [timerActive, setTimerActive] = useState(false);
   const [currentRoom, setCurrentRoom] = useState(null);
-  const [members, setMembers] = useState([]); 
+  const [members, setMembers] = useState([]);
 
   const timerRef = useRef(null);
 
@@ -206,56 +207,20 @@ function StudyTable() {
             border: "1.5px solid #8bfcb6",
             marginRight: "10px",
             width: "60%",
+            maxWidth: "300px",
             fontSize: "16px"
           }}
         />
-        <button 
-          onClick={handleJoinRoom}
-          style={{
-            marginTop: "10px",
-            marginLeft: "10px",
-            padding: "10px 18px",
-            borderRadius: "8px",
-            background: "#8bfcb6",
-            color: "#222429",
-            border: "none",
-            fontWeight: "bold",
-            fontSize: "16px",
-            cursor: "pointer"
-          }}
-        >
-          Join Room
-        </button>
-        <button
-          onClick={handleCreateRoom}
-          style={{
-            marginTop: "10px",
-            marginLeft: "10px",
-            padding: "10px 18px",
-            borderRadius: "8px",
-            background: "#00d9f5",
-            color: "#222429",
-            border: "none",
-            fontWeight: "bold",
-            fontSize: "16px",
-            cursor: "pointer"
-          }}
-        >
-          Create Room
-        </button>
+        <div className="join-create-buttons" style={{ display: "flex", flexWrap: "wrap", justifyContent: "center", marginTop: 10, gap: "10px" }}>
+          <button onClick={handleJoinRoom}>Join Room</button>
+          <button onClick={handleCreateRoom}>Create Room</button>
+        </div>
       </div>
 
-      <div className="table-card">
-        <div style={{ 
-          display: "flex", 
-          justifyContent: "center", 
-          flexWrap: "wrap", 
-          gap: "40px", 
-          marginTop: "100px" 
-        }}>
+      <div className="table-card" style={{ margin: "40px auto", padding: "20px", maxWidth: "90%", display: "flex", flexDirection: "column", alignItems: "center" }}>
+        <div className="member-container" style={{ display: "flex", justifyContent: "center", flexWrap: "wrap", gap: "30px", marginTop: "40px" }}>
           {members.map((member) => (
-            <div key={member} style={{ display: "flex", flexDirection: "column", alignItems: "center", gap: "16px" }}>
-              {/* Circle */}
+            <div key={member} style={{ display: "flex", flexDirection: "column", alignItems: "center", gap: "10px" }}>
               <div
                 style={{
                   width: 50,
@@ -265,10 +230,8 @@ function StudyTable() {
                   background: member === getAuth().currentUser?.uid ? "#8bfcb6" : "#e061f3ff",
                   boxShadow: "0 0 24px 4px #b1edf5ff",
                   transition: "transform 0.3s",
-                  marginTop: -100,
                 }}
               />
-              {/* Square */}
               <div
                 style={{
                   width: 60,
