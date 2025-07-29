@@ -12,7 +12,7 @@ function App() {
     <Router>
       <div className="App">
         <header className="App-header">
-          <h2>Lense</h2>
+          <img src="LENSE.png"></img>
           <Routes>
             <Route path="/" element={<Login />} />
             <Route path="/dashboard" element={<Dashboard />} />
