@@ -122,6 +122,7 @@ function StudyTable() {
         return;
       }
 
+
       if (!members.some((m) => m.uid === user.uid)) {
         const firstName = (user.displayName || "User").split(" ")[0];
         members.push({ uid: user.uid, name: firstName });
@@ -272,7 +273,7 @@ function StudyTable() {
                   <span style={{ fontSize: 12, fontWeight: 'bold', color: "#12bee5ff", marginTop: 6 }}>You</span>
                 )}
                 <span style={{ fontSize: 12, fontWeight: 'bold', color: "#9ed6c4ff", marginTop: 6 }}>
-                  {member.name}
+                  {member.displayName || member.name}
                 </span>
               </div>
             );
