@@ -1,5 +1,10 @@
-// Share.js
 import React from "react";
+import { PiCopySimpleThin } from "react-icons/pi";
+import { HiClipboardCopy } from "react-icons/hi";
+import { PiCheckThin } from "react-icons/pi";
+
+
+
 
 function Share({ roomCode, onClose }) {
     const [copied, setCopied] = React.useState(false);
@@ -37,6 +42,7 @@ function Share({ roomCode, onClose }) {
           }}
         >
           {copied ? "Copied" : "Copy"}
+          {copied ? <PiCheckThin/> : <PiCopySimpleThin/>}
         </button>
         </div>
        
