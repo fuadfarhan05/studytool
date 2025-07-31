@@ -379,21 +379,54 @@ li.task-list.completed {
 
 .share-modal {
   position: fixed;
-  top: 30%;
-  left: 30%;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
   background: rgba(242, 241, 241, 0.7);
-  color:#0f0f1b;
+  color: #0f0f1b;
   border: solid 2px #c3cfc9;
-  width: 600px;
-  height: 350px;
+  width: 90%;
+  max-width: 600px;
+  height: auto;
+  padding: 2rem;
   border-radius: 20px;
   box-shadow: 0 4px 20px rgba(0, 0, 0, 0.4);
   backdrop-filter: blur(10px);
   z-index: 1000;
   display: flex;
+  flex-direction: column;
   justify-content: center;
   align-items: center;
+  box-sizing: border-box;
 }
+
+@media (max-width: 480px) {
+  .share-modal {
+    width: 90%;
+    padding: 1.2rem;
+    height: auto;
+  }
+
+  .share-modal h2 {
+    font-size: 1.2rem;
+    text-align: center;
+  }
+
+  .share-modal p {
+    font-size: 0.95rem;
+    word-break: break-word;
+    text-align: center;
+  }
+
+  .button1,
+  .button2 {
+    width: 100%;
+    padding: 10px;
+    font-size: 1rem;
+    margin-top: 0.8rem;
+  }
+}
+
 
 .close-button {
   position: absolute;
