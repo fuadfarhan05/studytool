@@ -18,7 +18,7 @@ function StudyTable() {
   const [timerActive, setTimerActive] = useState(false);
   const [currentRoom, setCurrentRoom] = useState(null);
   const [members, setMembers] = useState([]);
-
+  
   const timerRef = useRef(null);
 
   const memberColors = ["#58f895ff", "#39b7f7ff", "#faec5bff", "#e814baff"]; 
