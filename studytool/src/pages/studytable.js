@@ -1,6 +1,9 @@
 import React, { useState, useRef, useEffect } from "react";
 import Sidebar from "../component/sidebar";
 import "../App.css";
+import { HiArrowTopRightOnSquare } from "react-icons/hi2";
+import { motion } from "framer-motion";
+import Share from "../component/share";
 
 import {
   doc,
@@ -17,6 +20,8 @@ function StudyTable() {
   const [timerActive, setTimerActive] = useState(false);
   const [currentRoom, setCurrentRoom] = useState(null);
   const [members, setMembers] = useState([]);
+  const [showShareModal, setShowShareModal] = useState(false);
+
 
   const auth = getAuth();
   const user = auth.currentUser;
@@ -222,6 +227,11 @@ function StudyTable() {
             fontSize: "16px"
           }}
         />
+        <button className="share-button" onClick={() => setShowShareModal(true)}>
+          share code with friends <HiArrowTopRightOnSquare />
+        </button>
+
+      
         <div className="join-create-buttons" style={{ display: "flex", flexWrap: "wrap", justifyContent: "center", marginTop: 10, gap: "10px" }}>
           <button onClick={handleJoinRoom}>Join Room</button>
           <button onClick={handleCreateRoom}>Create Room</button>
@@ -318,6 +328,9 @@ function StudyTable() {
             Stop Timer
           </button>
         )}
+          {showShareModal && (
+         <Share roomCode={roomCode} onClose={() => setShowShareModal(false)}/>
+      )}
       </div>
     </div>
   );
