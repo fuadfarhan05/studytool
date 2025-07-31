@@ -1,4 +1,3 @@
-// StudyTable.js
 import React, { useState, useRef, useEffect } from "react";
 import Sidebar from "../component/sidebar";
 import "../App.css";
@@ -18,6 +17,9 @@ function StudyTable() {
   const [timerActive, setTimerActive] = useState(false);
   const [currentRoom, setCurrentRoom] = useState(null);
   const [members, setMembers] = useState([]);
+
+  const auth = getAuth();
+  const user = auth.currentUser;
 
   const timerRef = useRef(null);
 
@@ -61,8 +63,7 @@ function StudyTable() {
   };
 
   const handleCreateRoom = async () => {
-    const auth = getAuth();
-    const user = auth.currentUser;
+    const user = getAuth().currentUser;
 
     if (!user) {
       alert("You must be logged in.");
@@ -70,11 +71,12 @@ function StudyTable() {
     }
 
     const code = generateRoomCode();
+    const firstName = (user.displayName || "User").split(" ")[0];
 
     try {
       await setDoc(doc(db, "rooms", code), {
         createdBy: user.uid,
-        members: [user.uid],
+        members: [{ uid: user.uid, name: firstName }],
         createdAt: new Date().toISOString(),
       });
 
@@ -89,8 +91,7 @@ function StudyTable() {
   };
 
   const handleJoinRoom = async () => {
-    const auth = getAuth();
-    const user = auth.currentUser;
+    const user = getAuth().currentUser;
 
     if (!user) {
       alert("You must be logged in.");
@@ -116,13 +117,14 @@ function StudyTable() {
       const roomData = roomSnap.data();
       const members = roomData.members || [];
 
-      if (members.length >= 4 && !members.includes(user.uid)) {
+      if (members.length >= 4 && !members.some((m) => m.uid === user.uid)) {
         alert("Sorry, this room is full.");
         return;
       }
 
-      if (!members.includes(user.uid)) {
-        members.push(user.uid);
+      if (!members.some((m) => m.uid === user.uid)) {
+        const firstName = (user.displayName || "User").split(" ")[0];
+        members.push({ uid: user.uid, name: firstName });
         await setDoc(roomRef, { ...roomData, members }, { merge: true });
       }
 
@@ -246,7 +248,7 @@ function StudyTable() {
 
             return (
               <div
-                key={member}
+                key={member.uid}
                 style={{
                   position: "absolute",
                   left: `calc(50% + ${x}px - 25px)`,
@@ -266,33 +268,36 @@ function StudyTable() {
                     boxShadow: "0 0 10px rgba(0,0,0,0.2)"
                   }}
                 />
-                {member === getAuth().currentUser?.uid && (
-                  <span style={{ fontSize: 12, fontWeight: 'bold', color: "#ffffffff", marginTop: 6 }}>You</span>
+                {member.uid === user?.uid && (
+                  <span style={{ fontSize: 12, fontWeight: 'bold', color: "#12bee5ff", marginTop: 6 }}>You</span>
                 )}
+                <span style={{ fontSize: 12, fontWeight: 'bold', color: "#9ed6c4ff", marginTop: 6 }}>
+                  {member.name}
+                </span>
               </div>
             );
           })}
         </div>
 
         <h2>Set Timer for</h2>
+        <button className="button1" onClick={() => startTimer(30)}>30 minutes</button>
         <button className="button1" onClick={() => startTimer(60)}>1 hour</button>
         <button className="button2" onClick={() => startTimer(120)}>2 hours</button>
 
-          <div
-              style={{
-                margin: "20px 0",
-                fontSize: 40,
-                fontWeight: "bold",
-                color: "#ffffffff",
-                backgroundImage: "linear-gradient(135deg, #5de8a0ff, #a66ff3ff)",
-                padding: "20px",
-                borderRadius: "10px",
-                textAlign: "center"
-              }}
-            >
-        {timer > 0 ? formatTime(timer) : "00:00:00"}
-      </div>
-
+        <div
+          style={{
+            margin: "20px 0",
+            fontSize: 40,
+            fontWeight: "bold",
+            color: "#ffffffff",
+            backgroundImage: "linear-gradient(135deg, #5de8a0ff, #a66ff3ff)",
+            padding: "20px",
+            borderRadius: "10px",
+            textAlign: "center"
+          }}
+        >
+          {timer > 0 ? formatTime(timer) : "00:00:00"}
+        </div>
 
         {timerActive && (
           <button
