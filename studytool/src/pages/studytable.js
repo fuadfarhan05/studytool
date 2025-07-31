@@ -233,7 +233,7 @@ function StudyTable() {
           backgroundImage: `url('https://www.transparenttextures.com/patterns/wood-pattern.png')`,
           borderRadius: "50%",
           backgroundColor: "#6d4c0eff",
-          borderColor: "#fec875ff",
+          borderColor: "#ede4d7ff",
           border: "5px solid #ccc",
           marginBottom: 40
         }}>
@@ -266,7 +266,7 @@ function StudyTable() {
                   }}
                 />
                 {member === getAuth().currentUser?.uid && (
-                  <span style={{ fontSize: 12, color: "#333", marginTop: 6 }}>You</span>
+                  <span style={{ fontSize: 12, fontWeight: 'bold', color: "#ffffffff", marginTop: 6 }}>You</span>
                 )}
               </div>
             );
