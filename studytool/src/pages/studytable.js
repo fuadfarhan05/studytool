@@ -18,7 +18,7 @@ function StudyTable() {
   const [timerActive, setTimerActive] = useState(false);
   const [currentRoom, setCurrentRoom] = useState(null);
   const [members, setMembers] = useState([]);
-  
+
   const timerRef = useRef(null);
 
   const memberColors = ["#58f895ff", "#39b7f7ff", "#faec5bff", "#e814baff"]; 
@@ -117,7 +117,7 @@ function StudyTable() {
       const members = roomData.members || [];
 
       if (members.length >= 4 && !members.includes(user.uid)) {
-        alert("This room is full (max 4 people).");
+        alert("Sorry, this room is full.");
         return;
       }
 
@@ -193,9 +193,10 @@ function StudyTable() {
   };
 
   const formatTime = (seconds) => {
-    const m = Math.floor(seconds / 60).toString().padStart(2, "0");
+    const h = Math.floor(seconds / 3600).toString().padStart(2, "0");
+    const m = Math.floor((seconds % 3600) / 60).toString().padStart(2, "0");
     const s = (seconds % 60).toString().padStart(2, "0");
-    return `${m}:${s}`;
+    return `${h}:${m}:${s}`;
   };
 
   return (
@@ -228,12 +229,12 @@ function StudyTable() {
         {/* Circular Table */}
         <div style={{
           position: "relative",
-          width: 300,
-          height: 300,
+          width: 200,
+          height: 200,
           backgroundImage: `url('https://www.transparenttextures.com/patterns/wood-pattern.png')`,
           borderRadius: "50%",
-          backgroundColor: "#6d4c0eff",
-          borderColor: "#ede4d7ff",
+          backgroundColor: "#2e2c2aff",
+          borderColor: "#afa99dff",
           border: "5px solid #ccc",
           marginBottom: 40
         }}>
@@ -277,9 +278,21 @@ function StudyTable() {
         <button className="button1" onClick={() => startTimer(60)}>1 hour</button>
         <button className="button2" onClick={() => startTimer(120)}>2 hours</button>
 
-        <div style={{ margin: "20px 0", fontSize: 40, fontWeight: "bold", color: "#000000ff", background: "#acf5c9ff", padding: "20px", borderRadius: "10px" }}>
-          {timer > 0 ? formatTime(timer) : "00:00"}
-        </div>
+          <div
+              style={{
+                margin: "20px 0",
+                fontSize: 40,
+                fontWeight: "bold",
+                color: "#ffffffff",
+                backgroundImage: "linear-gradient(135deg, #5de8a0ff, #a66ff3ff)",
+                padding: "20px",
+                borderRadius: "10px",
+                textAlign: "center"
+              }}
+            >
+        {timer > 0 ? formatTime(timer) : "00:00:00"}
+      </div>
+
 
         {timerActive && (
           <button
