@@ -354,22 +354,7 @@ li.task-list.completed {
   box-shadow: 0 0 6px rgba(129, 254, 179, 0.8);
 }
 
-.table-card {
-  width: 360px;
-  height: 310px;
-  /* Replace solid color with a wood texture image */
-  background: url('https://www.transparenttextures.com/patterns/wood-pattern.png'), #87693a;
-  background-size: cover;
-  background-repeat: repeat;
-  border-radius: 18px;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-  margin-top: 150px;
-  margin-left: -20px;
-  animation: glowGreen 2.5s ease-in-out infinite alternate;
-}
+
 
 @keyframes glowGreen {
   0% {

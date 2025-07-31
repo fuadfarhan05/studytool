@@ -21,6 +21,8 @@ function StudyTable() {
 
   const timerRef = useRef(null);
 
+  const memberColors = ["#58f895ff", "#39b7f7ff", "#faec5bff", "#e814baff"]; 
+
   useEffect(() => {
     return () => clearInterval(timerRef.current);
   }, []);
@@ -113,6 +115,11 @@ function StudyTable() {
 
       const roomData = roomSnap.data();
       const members = roomData.members || [];
+
+      if (members.length >= 4 && !members.includes(user.uid)) {
+        alert("This room is full (max 4 people).");
+        return;
+      }
 
       if (!members.includes(user.uid)) {
         members.push(user.uid);
@@ -218,37 +225,59 @@ function StudyTable() {
       </div>
 
       <div className="table-card" style={{ margin: "40px auto", padding: "20px", maxWidth: "90%", display: "flex", flexDirection: "column", alignItems: "center" }}>
-        <div className="member-container" style={{ display: "flex", justifyContent: "center", flexWrap: "wrap", gap: "30px", marginTop: "40px" }}>
-          {members.map((member) => (
-            <div key={member} style={{ display: "flex", flexDirection: "column", alignItems: "center", gap: "10px" }}>
+        {/* Circular Table */}
+        <div style={{
+          position: "relative",
+          width: 300,
+          height: 300,
+          backgroundImage: `url('https://www.transparenttextures.com/patterns/wood-pattern.png')`,
+          borderRadius: "50%",
+          backgroundColor: "#6d4c0eff",
+          borderColor: "#fec875ff",
+          border: "5px solid #ccc",
+          marginBottom: 40
+        }}>
+          {members.map((member, index) => {
+            const angle = (index / members.length) * 2 * Math.PI;
+            const radius = 120;
+            const x = radius * Math.cos(angle);
+            const y = radius * Math.sin(angle);
+
+            return (
               <div
+                key={member}
                 style={{
-                  width: 50,
-                  height: 50,
-                  border: "5px solid #fbf182ff",
-                  borderRadius: "50%",
-                  background: member === getAuth().currentUser?.uid ? "#8bfcb6" : "#e061f3ff",
-                  boxShadow: "0 0 24px 4px #b1edf5ff",
-                  transition: "transform 0.3s",
+                  position: "absolute",
+                  left: `calc(50% + ${x}px - 25px)`,
+                  top: `calc(50% + ${y}px - 25px)`,
+                  display: "flex",
+                  flexDirection: "column",
+                  alignItems: "center",
                 }}
-              />
-              <div
-                style={{
-                  width: 60,
-                  height: 80,
-                  border: "5px solid #ffffff",
-                  background: "#ffffffff",
-                }}
-              />
-            </div>
-          ))}
+              >
+                <div
+                  style={{
+                    width: 50,
+                    height: 50,
+                    borderRadius: "50%",
+                    backgroundColor: memberColors[index % memberColors.length],
+                    border: "3px solid #fff",
+                    boxShadow: "0 0 10px rgba(0,0,0,0.2)"
+                  }}
+                />
+                {member === getAuth().currentUser?.uid && (
+                  <span style={{ fontSize: 12, color: "#333", marginTop: 6 }}>You</span>
+                )}
+              </div>
+            );
+          })}
         </div>
 
         <h2>Set Timer for</h2>
         <button className="button1" onClick={() => startTimer(60)}>1 hour</button>
         <button className="button2" onClick={() => startTimer(120)}>2 hours</button>
 
-        <div style={{ marginTop: "100px", margin: "20px 0", fontSize: 40, fontWeight: "bold", color: "#000000ff", background: "#acf5c9ff", padding: "20px", borderRadius: "10px" }}>
+        <div style={{ margin: "20px 0", fontSize: 40, fontWeight: "bold", color: "#000000ff", background: "#acf5c9ff", padding: "20px", borderRadius: "10px" }}>
           {timer > 0 ? formatTime(timer) : "00:00"}
         </div>
 
