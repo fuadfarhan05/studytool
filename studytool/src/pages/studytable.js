@@ -228,7 +228,7 @@ function StudyTable() {
           }}
         />
         <button className="share-button" onClick={() => setShowShareModal(true)}>
-          share code with friends <HiArrowTopRightOnSquare />
+          share<HiArrowTopRightOnSquare />
         </button>
 
       
