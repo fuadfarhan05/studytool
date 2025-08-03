@@ -9,7 +9,23 @@ import { PiCheckThin } from "react-icons/pi";
 function Share({ roomCode, onClose }) {
     const [copied, setCopied] = React.useState(false);
 
-    const fullTextToCopy = `https://lenseforlearning.vercel.app\nRoom Code:\n${roomCode}`;
+    const messages = [
+        "Let's get productive together — join my study room!",
+        "Need some focus time? Hop onto my study session!",
+        "Come vibe and study with me",
+        "Join me in this study room — we’ve got goals to crush!",
+        "Let’s stay accountable — jump into my study room!",
+        "Grab your coffee and notes — join my study session!",
+        "Let’s power through homework together in this room!",
+        "I’m studying right now — come join and stay focused!",
+        "Join my virtual study table — let’s knock out this to-do list!",
+        "Let’s lock in for a study session — I’ll see you in the room!"
+    ];
+
+    const randomMessage = messages[Math.floor(Math.random() * messages.length)];
+
+
+    const fullTextToCopy = `https://lenseforlearning.vercel.app\n${randomMessage}\nRoom Code:\n${roomCode}`;
 
 
     const handleCopy = async () => {
@@ -25,7 +41,7 @@ function Share({ roomCode, onClose }) {
     <div className="share-modal-overlay">
       <div className="share-modal">
         <div className="content-for-share">
-            <p>https://lenseforlearning.vercel.app</p>
+        <h2>Share your study room with your friends</h2>
             <p>Room Code:</p>
         <p style={{ fontSize: 24, fontWeight: "bold", marginBottom: 10 }}>{roomCode}</p>
         <button
@@ -33,7 +49,7 @@ function Share({ roomCode, onClose }) {
           style={{
             padding: "8px 14px",
             borderRadius: "8px",
-            background: "#8bfcb6",
+            background: copied ? "#54916bff" : "#ddf9e1ff",
             border: "none",
             fontWeight: "bold",
             fontSize: "16px",

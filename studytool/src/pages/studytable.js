@@ -2,8 +2,10 @@ import React, { useState, useRef, useEffect } from "react";
 import Sidebar from "../component/sidebar";
 import "../App.css";
 import { HiArrowTopRightOnSquare } from "react-icons/hi2";
+import { HiServer } from "react-icons/hi";
 import { motion } from "framer-motion";
 import Share from "../component/share";
+import Interact from "../component/interact"; 
 
 import {
   doc,
@@ -13,6 +15,7 @@ import {
 } from "firebase/firestore";
 import { db } from "../firebase/auth";
 import { getAuth } from "firebase/auth";
+import { deleteDoc } from "firebase/firestore";
 
 function StudyTable() {
   const [roomCode, setRoomCode] = useState("");
@@ -21,6 +24,7 @@ function StudyTable() {
   const [currentRoom, setCurrentRoom] = useState(null);
   const [members, setMembers] = useState([]);
   const [showShareModal, setShowShareModal] = useState(false);
+  const [showInteract, setShowInteract] = useState(false);
 
 
   const auth = getAuth();
@@ -95,6 +99,30 @@ function StudyTable() {
     }
   };
 
+  const handleLeaveRoom = async () => {
+    const user = getAuth().currentUser;
+    if (!user || !currentRoom) return;
+
+    const roomRef = doc(db, "rooms", currentRoom);
+    const roomSnap = await getDoc(roomRef);
+
+    if(!roomSnap.exists()) return;
+    const roomData = roomSnap.data();
+    let updatedMembers = (roomData.members || []).filter(m => m.uid !== user.uid);
+
+    if (updatedMembers.length === 0) {
+      await deleteDoc(roomRef);
+    } else {
+       await setDoc(roomRef, { ...roomData, members: updatedMembers },{ merge: true });
+    }
+
+    setCurrentRoom(null);
+    setMembers([]);
+    setRoomCode("");
+    stopTimer(false); //might wanna change this cuz idk 
+    alert("You left. Join another when your ready!");
+  };
+
   const handleJoinRoom = async () => {
     const user = getAuth().currentUser;
 
@@ -142,6 +170,7 @@ function StudyTable() {
       alert("Failed to join room: " + error.message);
     }
   };
+
 
   const startLocalTimer = (duration) => {
     clearInterval(timerRef.current);
@@ -217,25 +246,19 @@ function StudyTable() {
           placeholder="Enter room code"
           value={roomCode}
           onChange={e => setRoomCode(e.target.value)}
-          style={{
-            padding: "10px",
-            borderRadius: "8px",
-            border: "1.5px solid #8bfcb6",
-            marginRight: "10px",
-            width: "60%",
-            maxWidth: "300px",
-            fontSize: "16px"
-          }}
+          className ="cool-input"
         />
-        <button className="share-button" onClick={() => setShowShareModal(true)}>
-          share<HiArrowTopRightOnSquare />
-        </button>
+        
 
       
         <div className="join-create-buttons" style={{ display: "flex", flexWrap: "wrap", justifyContent: "center", marginTop: 10, gap: "10px" }}>
           <button onClick={handleJoinRoom}>Join Room</button>
           <button onClick={handleCreateRoom}>Create Room</button>
         </div>
+
+        
+        
+        
       </div>
 
       <div className="table-card" style={{ margin: "40px auto", padding: "20px", maxWidth: "90%", display: "flex", flexDirection: "column", alignItems: "center" }}>
@@ -288,47 +311,34 @@ function StudyTable() {
               </div>
             );
           })}
+
+          
+
+        </div>
+        <div className="row" style={{ marginTop: 20, display: "flex", justifyContent: "center", gap: "10px" }}>
+          <button className="share-button" onClick={() => setShowShareModal(true)}>
+          share<HiArrowTopRightOnSquare />
+        </button>
+        <button className="share-button" onClick={() => setShowInteract(true)}>
+              actions <HiServer />
+        </button>
         </div>
 
-        <h2>Set Timer for</h2>
-        <button className="button1" onClick={() => startTimer(30)}>30 minutes</button>
-        <button className="button1" onClick={() => startTimer(60)}>1 hour</button>
-        <button className="button2" onClick={() => startTimer(120)}>2 hours</button>
+       <button className="leave-button" onClick={handleLeaveRoom}>Leave Room</button>
 
-        <div
-          style={{
-            margin: "20px 0",
-            fontSize: 40,
-            fontWeight: "bold",
-            color: "#ffffffff",
-            backgroundImage: "linear-gradient(135deg, #5de8a0ff, #a66ff3ff)",
-            padding: "20px",
-            borderRadius: "10px",
-            textAlign: "center"
-          }}
-        >
-          {timer > 0 ? formatTime(timer) : "00:00:00"}
-        </div>
 
-        {timerActive && (
-          <button
-            onClick={() => stopTimer()}
-            style={{
-              marginBottom: "15px",
-              padding: "8px 16px",
-              borderRadius: "8px",
-              background: "#ff6b6b",
-              color: "#fff",
-              border: "none",
-              fontWeight: "bold",
-              fontSize: "16px",
-              cursor: "pointer"
-            }}
-          >
-            Stop Timer
-          </button>
+         
+
+
+        
+
+      
+        {showInteract && (
+          <Interact onClose={() => setShowInteract(false)} />
         )}
-          {showShareModal && (
+
+
+        {showShareModal && (
          <Share roomCode={roomCode} onClose={() => setShowShareModal(false)}/>
       )}
       </div>
