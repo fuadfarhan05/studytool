@@ -363,6 +363,7 @@ function StudyTable() {
                         boxShadow: "0 0 8px rgba(109, 209, 116, 0.2)",
                         whiteSpace: "nowrap",
                         marginBottom: "20px",
+                        marginLeft: "250px",
                         maxWidth: 200,
                         textAlign: "center",
                       }}
