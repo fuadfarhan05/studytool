@@ -25,6 +25,8 @@ function StudyTable() {
   const [members, setMembers] = useState([]);
   const [showShareModal, setShowShareModal] = useState(false);
   const [showInteract, setShowInteract] = useState(false);
+  const [myEmote, setMyEmote] = useState(null);
+
 
 
   const auth = getAuth();
@@ -303,8 +305,30 @@ function StudyTable() {
                   }}
                 />
                 {member.uid === user?.uid && (
+                <>
+                  {myEmote && (
+                    <div style={{
+                      position: "absolute",
+                      bottom: "60px",
+                      transform: "translateX(-50%)",
+                      backgroundColor: "#fff",
+                      borderRadius: "20px",
+                      padding: "6px 10px",
+                      fontSize: "18px",
+                      color: "#333",
+                      boxShadow: "0 0 8px rgba(0,0,0,0.2)",
+                      whiteSpace: "nowrap",
+                      marginLeft: "250px",
+                      marginBottom: "20px"
+                    }}>
+                      {myEmote.label}
+                      {myEmote.icon}
+                    </div>
+                  )}
                   <span style={{ fontSize: 12, fontWeight: 'bold', color: "#12bee5ff", marginTop: 6 }}>You</span>
+                </>
                 )}
+
                 <span style={{ fontSize: 12, fontWeight: 'bold', color: "#9ed6c4ff", marginTop: 6 }}>
                   {member.displayName || member.name}
                 </span>
@@ -320,7 +344,7 @@ function StudyTable() {
           share<HiArrowTopRightOnSquare />
         </button>
         <button className="share-button" onClick={() => setShowInteract(true)}>
-              actions <HiServer />
+              set emote <HiServer />
         </button>
         </div>
 
@@ -334,8 +358,12 @@ function StudyTable() {
 
       
         {showInteract && (
-          <Interact onClose={() => setShowInteract(false)} />
+          <Interact 
+            onClose={() => setShowInteract(false)} 
+            onSelectEmote={(emote) => setMyEmote(emote)} 
+          />
         )}
+
 
 
         {showShareModal && (

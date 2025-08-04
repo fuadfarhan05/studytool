@@ -361,6 +361,69 @@ li.task-list.completed {
   background: rgba(0, 0, 0, 0.2);
 }
 
+.share-modal {
+  text-align: center;
+  padding: 2rem;
+  background-color: #1e1e2f;
+  border-radius: 20px;
+  color: rgb(255, 255, 255);
+  max-width: 400px;
+  margin: 0 auto;
+  position: relative;
+}
+
+.emote-wheel {
+  position: relative;
+  width: 400px;
+  height: 400px;
+  margin: 2rem auto;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.emote-option {
+  position: absolute;
+  width: 80px;
+  height: 80px;
+  background-color: #bdeac9;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: rgb(29, 48, 40);
+  font-size: 0.9rem;
+  font-weight: bold;
+  cursor: pointer;
+  transition: transform 0.3s ease, background-color 0.3s;
+}
+
+.emote-option:hover {
+  background-color: #6fffb5;
+  scale: 1.1;
+}
+
+.emote-option.selected {
+  background-color: #00ffa2;
+  box-shadow: 0 0 15px #00ffc8;
+}
+
+.emote-center {
+  position: absolute;
+  width: 150px;
+  height: 150px;
+  background: #8fe896;
+  color: #000000;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: bold;
+  font-size: 1.1rem;
+  border: 3px solid #68d190;
+}
+
 
 
 
