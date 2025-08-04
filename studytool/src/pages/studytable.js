@@ -367,7 +367,7 @@ function StudyTable() {
                         textAlign: "center",
                       }}
                     >
-                      {emoteObj.icon} {emoteObj.label}
+                      {emoteObj.label} {emoteObj.icon}
                     </div>
                   )
                 )}
