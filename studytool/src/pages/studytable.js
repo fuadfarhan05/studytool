@@ -5,7 +5,6 @@ import { HiArrowTopRightOnSquare } from "react-icons/hi2";
 import { HiServer } from "react-icons/hi";
 import Share from "../component/share";
 import Interact from "../component/interact";
-
 import {
   doc,
   setDoc,
@@ -21,6 +20,7 @@ import {
   PiCheckCircleThin,
   PiHamburgerThin,
   PiHeartThin,
+  PiNotEquals,
 } from "react-icons/pi";
 
 const options = [
@@ -28,6 +28,7 @@ const options = [
   { label: "Locked In", icon: <PiCheckCircleThin size={28} /> },
   { label: "Eating", icon: <PiHamburgerThin size={28} /> },
   { label: "Spreading Love", icon: <PiHeartThin size={28} /> },
+  { label: "", icon: <PiNotEquals size={28} /> },
 ];
 
 function StudyTable() {
@@ -322,9 +323,9 @@ function StudyTable() {
 
                 {member.uid === user?.uid ? (
                   <>
-                    {myEmote && (
-                      <div
-                        style={{
+                    {emoteObj && emoteObj.label !== "" && (
+  <div style={
+    {
                           position: "absolute",
                           bottom: "60px",
                           transform: "translateX(-50%)",
@@ -337,11 +338,11 @@ function StudyTable() {
                           whiteSpace: "nowrap",
                           marginLeft: "250px",
                           marginBottom: "20px",
-                        }}
-                      >
-                        {myEmote.label} {myEmote.icon}
-                      </div>
-                    )}
+                        }
+                        }>
+                            {emoteObj.icon} {emoteObj.label}
+                          </div>
+                        )}
                     <span
                       style={{ fontSize: 12, fontWeight: "bold", color: "#12bee5ff", marginTop: 6 }}
                     >
