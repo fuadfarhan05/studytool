@@ -3,9 +3,8 @@ import Sidebar from "../component/sidebar";
 import "../App.css";
 import { HiArrowTopRightOnSquare } from "react-icons/hi2";
 import { HiServer } from "react-icons/hi";
-import { motion } from "framer-motion";
 import Share from "../component/share";
-import Interact from "../component/interact"; 
+import Interact from "../component/interact";
 
 import {
   doc,
@@ -17,6 +16,20 @@ import { db } from "../firebase/auth";
 import { getAuth } from "firebase/auth";
 import { deleteDoc } from "firebase/firestore";
 
+import {
+  PiMoonThin,
+  PiCheckCircleThin,
+  PiHamburgerThin,
+  PiHeartThin,
+} from "react-icons/pi";
+
+const options = [
+  { label: "Sleeping", icon: <PiMoonThin size={28} /> },
+  { label: "Locked In", icon: <PiCheckCircleThin size={28} /> },
+  { label: "Eating", icon: <PiHamburgerThin size={28} /> },
+  { label: "Spreading Love", icon: <PiHeartThin size={28} /> },
+];
+
 function StudyTable() {
   const [roomCode, setRoomCode] = useState("");
   const [timer, setTimer] = useState(0);
@@ -27,14 +40,12 @@ function StudyTable() {
   const [showInteract, setShowInteract] = useState(false);
   const [myEmote, setMyEmote] = useState(null);
 
-
-
   const auth = getAuth();
   const user = auth.currentUser;
 
   const timerRef = useRef(null);
 
-  const memberColors = ["#58f895ff", "#39b7f7ff", "#faec5bff", "#e814baff"]; 
+  const memberColors = ["#58f895ff", "#39b7f7ff", "#faec5bff", "#e814baff"];
 
   useEffect(() => {
     return () => clearInterval(timerRef.current);
@@ -74,8 +85,6 @@ function StudyTable() {
   };
 
   const handleCreateRoom = async () => {
-    const user = getAuth().currentUser;
-
     if (!user) {
       alert("You must be logged in.");
       return;
@@ -102,32 +111,29 @@ function StudyTable() {
   };
 
   const handleLeaveRoom = async () => {
-    const user = getAuth().currentUser;
     if (!user || !currentRoom) return;
 
     const roomRef = doc(db, "rooms", currentRoom);
     const roomSnap = await getDoc(roomRef);
 
-    if(!roomSnap.exists()) return;
+    if (!roomSnap.exists()) return;
     const roomData = roomSnap.data();
-    let updatedMembers = (roomData.members || []).filter(m => m.uid !== user.uid);
+    let updatedMembers = (roomData.members || []).filter((m) => m.uid !== user.uid);
 
     if (updatedMembers.length === 0) {
       await deleteDoc(roomRef);
     } else {
-       await setDoc(roomRef, { ...roomData, members: updatedMembers },{ merge: true });
+      await setDoc(roomRef, { ...roomData, members: updatedMembers }, { merge: true });
     }
 
     setCurrentRoom(null);
     setMembers([]);
     setRoomCode("");
-    stopTimer(false); //might wanna change this cuz idk 
-    alert("You left. Join another when your ready!");
+    stopTimer(false);
+    alert("You left. Join another when you're ready!");
   };
 
   const handleJoinRoom = async () => {
-    const user = getAuth().currentUser;
-
     if (!user) {
       alert("You must be logged in.");
       return;
@@ -157,7 +163,6 @@ function StudyTable() {
         return;
       }
 
-
       if (!members.some((m) => m.uid === user.uid)) {
         const firstName = (user.displayName || "User").split(" ")[0];
         members.push({ uid: user.uid, name: firstName });
@@ -172,7 +177,6 @@ function StudyTable() {
       alert("Failed to join room: " + error.message);
     }
   };
-
 
   const startLocalTimer = (duration) => {
     clearInterval(timerRef.current);
@@ -247,36 +251,47 @@ function StudyTable() {
           type="text"
           placeholder="Enter room code"
           value={roomCode}
-          onChange={e => setRoomCode(e.target.value)}
-          className ="cool-input"
+          onChange={(e) => setRoomCode(e.target.value)}
+          className="cool-input"
         />
-        
 
-      
-        <div className="join-create-buttons" style={{ display: "flex", flexWrap: "wrap", justifyContent: "center", marginTop: 10, gap: "10px" }}>
+        <div
+          className="join-create-buttons"
+          style={{ display: "flex", flexWrap: "wrap", justifyContent: "center", marginTop: 10, gap: "10px" }}
+        >
           <button onClick={handleJoinRoom}>Join Room</button>
           <button onClick={handleCreateRoom}>Create Room</button>
         </div>
-
-        
-        
-        
       </div>
 
-      <div className="table-card" style={{ margin: "40px auto", padding: "20px", maxWidth: "90%", display: "flex", flexDirection: "column", alignItems: "center" }}>
+      <div
+        className="table-card"
+        style={{
+          margin: "40px auto",
+          padding: "20px",
+          maxWidth: "90%",
+          display: "flex",
+          flexDirection: "column",
+          alignItems: "center",
+        }}
+      >
         {/* Circular Table */}
-        <div style={{
-          position: "relative",
-          width: 200,
-          height: 200,
-          backgroundImage: `url('https://www.transparenttextures.com/patterns/wood-pattern.png')`,
-          borderRadius: "50%",
-          backgroundColor: "#2e2c2aff",
-          borderColor: "#afa99dff",
-          border: "5px solid #ccc",
-          marginBottom: 40
-        }}>
+        <div
+          style={{
+            position: "relative",
+            width: 200,
+            height: 200,
+            backgroundImage: `url('https://www.transparenttextures.com/patterns/wood-pattern.png')`,
+            borderRadius: "50%",
+            backgroundColor: "#2e2c2aff",
+            borderColor: "#afa99dff",
+            border: "5px solid #ccc",
+            marginBottom: 40,
+          }}
+        >
           {members.map((member, index) => {
+            const emoteObj = options.find((opt) => opt.label === member.status);
+
             const angle = (index / members.length) * 2 * Math.PI;
             const radius = 120;
             const x = radius * Math.cos(angle);
@@ -301,74 +316,92 @@ function StudyTable() {
                     borderRadius: "50%",
                     backgroundColor: memberColors[index % memberColors.length],
                     border: "3px solid #fff",
-                    boxShadow: "0 0 10px rgba(0,0,0,0.2)"
+                    boxShadow: "0 0 10px rgba(0,0,0,0.2)",
                   }}
                 />
-                {member.uid === user?.uid && (
-                <>
-                  {myEmote && (
-                    <div style={{
-                      position: "absolute",
-                      bottom: "60px",
-                      transform: "translateX(-50%)",
-                      backgroundColor: "#fff",
-                      borderRadius: "20px",
-                      padding: "6px 10px",
-                      fontSize: "18px",
-                      color: "#333",
-                      boxShadow: "0 0 8px rgba(0,0,0,0.2)",
-                      whiteSpace: "nowrap",
-                      marginLeft: "250px",
-                      marginBottom: "20px"
-                    }}>
-                      {myEmote.label}
-                      {myEmote.icon}
+
+                {member.uid === user?.uid ? (
+                  <>
+                    {myEmote && (
+                      <div
+                        style={{
+                          position: "absolute",
+                          bottom: "60px",
+                          transform: "translateX(-50%)",
+                          backgroundColor: "#fff",
+                          borderRadius: "20px",
+                          padding: "6px 10px",
+                          fontSize: "18px",
+                          color: "#333",
+                          boxShadow: "0 0 8px rgba(0,0,0,0.2)",
+                          whiteSpace: "nowrap",
+                          marginLeft: "250px",
+                          marginBottom: "20px",
+                        }}
+                      >
+                        {myEmote.label} {myEmote.icon}
+                      </div>
+                    )}
+                    <span
+                      style={{ fontSize: 12, fontWeight: "bold", color: "#12bee5ff", marginTop: 6 }}
+                    >
+                      You
+                    </span>
+                  </>
+                ) : (
+                  emoteObj && (
+                    <div
+                      style={{
+                        position: "absolute",
+                        bottom: "60px",
+                        transform: "translateX(-50%)",
+                        backgroundColor: "#fff",
+                        borderRadius: "20px",
+                        padding: "6px 10px",
+                        fontSize: "16px",
+                        color: "#333",
+                        boxShadow: "0 0 8px rgba(109, 209, 116, 0.2)",
+                        whiteSpace: "nowrap",
+                        marginBottom: "20px",
+                        maxWidth: 200,
+                        textAlign: "center",
+                      }}
+                    >
+                      {emoteObj.icon} {emoteObj.label}
                     </div>
-                  )}
-                  <span style={{ fontSize: 12, fontWeight: 'bold', color: "#12bee5ff", marginTop: 6 }}>You</span>
-                </>
+                  )
                 )}
 
-                <span style={{ fontSize: 12, fontWeight: 'bold', color: "#9ed6c4ff", marginTop: 6 }}>
-                  {member.displayName || member.name}
+                <span style={{ fontSize: 12, fontWeight: "bold", color: "#9ed6c4ff", marginTop: 6 }}>
+                  {member.displayName || member.name || "Unknown"}
                 </span>
               </div>
             );
           })}
-
-          
-
         </div>
-        <div className="row" style={{ marginTop: 20, display: "flex", justifyContent: "center", gap: "10px" }}>
+
+        <div className="row" style={{ marginTop: 40, display: "flex", justifyContent: "center", gap: "10px" }}>
           <button className="share-button" onClick={() => setShowShareModal(true)}>
-          share<HiArrowTopRightOnSquare />
-        </button>
-        <button className="share-button" onClick={() => setShowInteract(true)}>
-              set emote <HiServer />
-        </button>
+            share <HiArrowTopRightOnSquare />
+          </button>
+          <button className="share-button" onClick={() => setShowInteract(true)}>
+            set emote <HiServer />
+          </button>
         </div>
 
-       <button className="leave-button" onClick={handleLeaveRoom}>Leave Room</button>
+        <button className="leave-button" onClick={handleLeaveRoom}>
+          Leave Room
+        </button>
 
-
-         
-
-
-        
-
-      
         {showInteract && (
-          <Interact 
-            onClose={() => setShowInteract(false)} 
-            onSelectEmote={(emote) => setMyEmote(emote)} 
+          <Interact
+            roomCode={roomCode}
+            onClose={() => setShowInteract(false)}
+            onSelectEmote={(emote) => setMyEmote(emote)}
           />
         )}
 
-
-
-        {showShareModal && (
-         <Share roomCode={roomCode} onClose={() => setShowShareModal(false)}/>
-      )}
+        {showShareModal && <Share roomCode={roomCode} onClose={() => setShowShareModal(false)} />}
       </div>
     </div>
   );
