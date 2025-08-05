@@ -324,23 +324,26 @@ function StudyTable() {
                 {member.uid === user?.uid ? (
                   <>
                     {emoteObj && emoteObj.label !== "" && (
-  <div style={
-    {
-                          position: "absolute",
-                          bottom: "60px",
-                          transform: "translateX(-50%)",
-                          backgroundColor: "#fff",
-                          borderRadius: "20px",
-                          padding: "6px 10px",
-                          fontSize: "18px",
-                          color: "#333",
-                          boxShadow: "0 0 8px rgba(0,0,0,0.2)",
-                          whiteSpace: "nowrap",
-                          marginLeft: "250px",
-                          marginBottom: "20px",
+                    <div style={
+                      {
+                        position: "absolute",
+                        bottom: "60px",
+                        left: "50%",
+                        transform: "translateX(-50%)",
+                        backgroundColor: "rgba(255, 255, 255, 0.15)",
+                        backdropFilter: "blur(10px)",
+                        WebkitBackdropFilter: "blur(10px)",
+                        borderRadius: "20px",
+                        padding: "6px 10px",
+                        fontSize: "10px",
+                        color: "#fff",
+                        boxShadow: "0 4px 16px rgba(0, 0, 0, 0.25)",
+                        whiteSpace: "nowrap",
+                        border: "1px solid rgba(255, 255, 255, 0.3)",
+                        marginBottom: "30px",
                         }
                         }>
-                            {emoteObj.icon} {emoteObj.label}
+                             {emoteObj.label} {emoteObj.icon}
                           </div>
                         )}
                     <span
@@ -355,19 +358,20 @@ function StudyTable() {
                       style={{
                         position: "absolute",
                         bottom: "60px",
+                        left: "50%",
                         transform: "translateX(-50%)",
-                        backgroundColor: "#fff",
+                        backgroundColor: "rgba(255, 255, 255, 0.15)",
+                        backdropFilter: "blur(10px)",
+                        WebkitBackdropFilter: "blur(10px)",
                         borderRadius: "20px",
                         padding: "6px 10px",
-                        fontSize: "16px",
-                        color: "#333",
-                        boxShadow: "0 0 8px rgba(109, 209, 116, 0.2)",
+                        fontSize: "10px",
+                        color: "#fff",
+                        boxShadow: "0 4px 16px rgba(0, 0, 0, 0.25)",
                         whiteSpace: "nowrap",
-                        marginBottom: "20px",
-                        marginLeft: "250px",
-                        maxWidth: 200,
-                        textAlign: "center",
+                        border: "1px solid rgba(255, 255, 255, 0.3)"
                       }}
+
                     >
                       {emoteObj.label} {emoteObj.icon}
                     </div>
