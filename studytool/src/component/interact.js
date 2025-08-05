@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import "../App.css";
-import { PiMoonThin, PiCheckCircleThin, PiHamburgerThin, PiHeartThin, PiNotEquals } from "react-icons/pi";
+import { PiMoonThin, PiCheckCircleThin, PiHamburgerThin, PiHeartThin, PiXCircleThin } from "react-icons/pi";
 import { getAuth } from "firebase/auth";
 import { doc, getDoc, setDoc } from "firebase/firestore";
 import { db } from "../firebase/auth";
@@ -11,7 +11,7 @@ const options = [
   { label: "Locked In", icon: <PiCheckCircleThin size={28} /> },
   { label: "Eating", icon: <PiHamburgerThin size={28} /> },
   { label: "Spreading Love", icon: <PiHeartThin size={28} /> },
-  { label: "", icon: <PiNotEquals size={28} /> },
+  { label: "", icon: <PiXCircleThin size={28} /> },
 ];
 
 const auth = getAuth();

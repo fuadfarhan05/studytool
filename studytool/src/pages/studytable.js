@@ -20,7 +20,7 @@ import {
   PiCheckCircleThin,
   PiHamburgerThin,
   PiHeartThin,
-  PiNotEquals,
+  PiXCircleThin,
 } from "react-icons/pi";
 
 const options = [
@@ -28,7 +28,7 @@ const options = [
   { label: "Locked In", icon: <PiCheckCircleThin size={28} /> },
   { label: "Eating", icon: <PiHamburgerThin size={28} /> },
   { label: "Spreading Love", icon: <PiHeartThin size={28} /> },
-  { label: "", icon: <PiNotEquals size={28} /> },
+  { label: "", icon: <PiXCircleThin size={28} /> },
 ];
 
 function StudyTable() {
