@@ -24,7 +24,7 @@ function Upload() {
         boxShadow: "0 0 24px 6px #8bfcb6",
       }}>
         <Sidebar />
-        <h2 style={{ color: "#8bfcb6", marginBottom: 20 }}>Upload Files</h2>
+        <h2 style={{ color: "#8bfcb6", marginBottom: 20 }}>Upload Review Sheet</h2>
         <HiArrowCircleDown size={80} color="#8bfcb6" />
         
       </div>
