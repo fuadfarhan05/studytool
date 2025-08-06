@@ -731,13 +731,16 @@ img {
 /* Flip Button */
 .flip-button {
   margin-top: 100px;
-  width: 200px;
-  height: 100px;
+  width: 100px;
+  height: 50px;
   padding: 6px 12px;
   border-radius: 6px;
   border: none;
-  background: #00d9f5;
-  color: white;
+  font-size: 20px;
+  border-radius: 20px;
+  background: #9cedf7;
+  color: rgb(0, 0, 0);
   font-weight: bold;
+  padding: 35px;
   cursor: pointer;
 }
