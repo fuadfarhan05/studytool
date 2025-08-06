@@ -5,47 +5,192 @@ import StudioSidebar from "./studiosidebar";
 function CreateCards() {
   const [front, setFront] = useState("");
   const [back, setBack] = useState("");
+  const [subject, setSubject] = useState("Math");
   const [cards, setCards] = useState([]);
+  const [flippedCards, setFlippedCards] = useState({});
+  const [currentCardIndex, setCurrentCardIndex] = useState(0);
 
   const handleAddCard = () => {
     if (front.trim() && back.trim()) {
       setCards([...cards, { front, back }]);
       setFront("");
       setBack("");
+      setCurrentCardIndex(cards.length);
     }
   };
 
+  const handleFlip = (index) => {
+    setFlippedCards((prev) => ({
+      ...prev,
+      [index]: !prev[index],
+    }));
+  };
+
+  const handlePrev = () => {
+    setCurrentCardIndex((prev) => (prev > 0 ? prev - 1 : prev));
+  };
+
+  const handleNext = () => {
+    setCurrentCardIndex((prev) =>
+      prev < cards.length - 1 ? prev + 1 : prev
+    );
+  };
+
   return (
-    <div style={{ maxWidth: 400, margin: "auto", padding: 24 }}>
+    <div style={{
+      maxWidth: 500,
+      margin: "auto",
+      padding: "24px 16px",
+      display: "flex",
+      flexDirection: "column",
+      gap: "16px",
+      minHeight: "100vh",
+    }}>
       <StudioSidebar />
 
-      <h2>Lense Studio</h2>
-      <p>Welcome to Lense Studio! In here you can create your own Flashcards deck to study AND share your flashcards deck to the community page for others to use for practice.</p>
+      <h2 style={{ textAlign: "center" }}>Lense Studio</h2>
+      <p style={{ textAlign: "center" }}>
+        Welcome to Lense Studio! Here you can create your own Flashcards deck
+        to study and share with the community!
+      </p>
+
+      <h3>Select a subject category:</h3>
+      <select
+        value={subject}
+        onChange={(e) => setSubject(e.target.value)}
+        style={{
+          width: "100%",
+          padding: 10,
+          borderRadius: 10,
+          fontWeight: "bold",
+          background: "#b5f0cbff",
+          color: "#222429",
+        }}
+      >
+        <option value="Math">Math</option>
+        <option value="Language">Language</option>
+        <option value="Sight Worlds">Sight Words</option>
+        <option value="General Vocab">General Vocab</option>
+        <option value="Other">Other</option>
+      </select>
+
       <input
         type="text"
         placeholder="Front"
         value={front}
-        onChange={e => setFront(e.target.value)}
-        style={{ width: "100%", marginBottom: 8, padding: 8, borderRadius: 6 }}
+        onChange={(e) => setFront(e.target.value)}
+        style={{
+          width: "100%",
+          padding: 10,
+          borderRadius: 10,
+          border: "1px solid #ccc",
+        }}
       />
       <input
         type="text"
         placeholder="Back"
         value={back}
-        onChange={e => setBack(e.target.value)}
-        style={{ width: "100%", marginBottom: 8, padding: 8, borderRadius: 6 }}
+        onChange={(e) => setBack(e.target.value)}
+        style={{
+          width: "100%",
+          padding: 10,
+          borderRadius: 10,
+          border: "1px solid #ccc",
+        }}
       />
-      <button onClick={handleAddCard} style={{ width: "100%", padding: 10, borderRadius: 6, background: "#8bfcb6", color: "#222429", fontWeight: "bold" }}>
+      <button
+        onClick={handleAddCard}
+        style={{
+          width: "100%",
+          padding: 12,
+          borderRadius: 25,
+          background: "#5dd48bff",
+          color: "#222429",
+          fontWeight: "bold",
+          border: "none",
+          marginTop: 10,
+          cursor: "pointer"
+        }}
+      >
         Add Card
       </button>
-      <ul style={{ marginTop: 16 }}>
-        {cards.map((card, idx) => (
-          <li key={idx} style={{ background: "#23272f", color: "#fff", borderRadius: 6, padding: 10, marginBottom: 8 }}>
-            <strong>Front:</strong> {card.front} <br />
-            <strong>Back:</strong> {card.back}
-          </li>
-        ))}
-      </ul>
+
+      <div style={{ marginTop: 30 }}>
+        <h3>Your Cards</h3>
+        {cards.length > 0 ? (
+          <div
+            style={{
+              display: "flex",
+              flexDirection: "column",
+              alignItems: "center",
+              gap: 16,
+            }}
+          >
+            <div
+              className="flip-card"
+              style={{
+                width: "100%",
+                height: "200px",
+                perspective: "1000px",
+                position: "relative",
+              }}
+            >
+              <div
+                className={`flip-card-inner ${
+                  flippedCards[currentCardIndex] ? "flipped" : ""
+                }`}
+              >
+                <div className="flip-card-front">
+                  {cards[currentCardIndex].front}
+                </div>
+                <div className="flip-card-back">
+                  {cards[currentCardIndex].back}
+                </div>
+              </div>
+            </div>
+            <button
+              onClick={() => handleFlip(currentCardIndex)}
+              className="flip-button"
+            >
+              Flip
+            </button>
+            <div style={{ display: "flex", gap: 10 }}>
+              <button
+                onClick={handlePrev}
+                disabled={currentCardIndex === 0}
+                style={{
+                  padding: "10px 16px",
+                  borderRadius: 10,
+                  fontWeight: "bold",
+                  background: "#b5f0cbff",
+                  color: "#222429",
+                  border: "none",
+                  cursor: "pointer",
+                }}
+              >
+                ◀ Prev
+              </button>
+              <button
+                onClick={handleNext}
+                disabled={currentCardIndex === cards.length - 1}
+                style={{
+                  padding: "10px 16px",
+                  borderRadius: 10,
+                  fontWeight: "bold",
+                  background: "#b5f0cbff",
+                  color: "#222429",
+                  border: "none",
+                  cursor: "pointer",
+                }}
+              >
+                Next ▶
+              </button>
+            </div>
+          </div>
+        ) : (
+          <p style={{ marginTop: 20, textAlign: "center" }}>No cards yet.</p>
+        )}
+      </div>
     </div>
   );
 }
