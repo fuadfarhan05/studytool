@@ -20,7 +20,7 @@ function CreateCards() {
       <StudioSidebar />
 
       <h2>Lense Studio</h2>
-      <h3>Welcome to Lense Studio! In here you can create your own Flashcards deck to study AND share your flashcards deck to the community page for others to use for practice.</h3>
+      <p>Welcome to Lense Studio! In here you can create your own Flashcards deck to study AND share your flashcards deck to the community page for others to use for practice.</p>
       <input
         type="text"
         placeholder="Front"

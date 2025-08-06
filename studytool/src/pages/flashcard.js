@@ -1,50 +1,91 @@
 import React from "react";
 import "../App.css";
 import { useNavigate } from 'react-router-dom';
-import { useState } from "react";
 import { PiPlusBold, PiMagnifyingGlassBold } from "react-icons/pi";
 import Sidebar from "../component/sidebar";
-import CreateCards from "../component/createcards";
 
 function Flashcard() {
   const navigate = useNavigate();
 
-
   const goCreate = () => {
     navigate("/createcards");
   };
+
   return (
-    <div>
-    <Sidebar />
+    <div style={{ display: "flex", flexDirection: "column", minHeight: "100vh" }}>
+      <Sidebar />
+      <h2>Lense Community Page</h2>
 
-    
-          <div style={{ maxWidth: 400, margin: "auto", padding: 40, display: "flex", flexDirection: "column", justifyContent: "space-between", height: "100vh" }}>
-          {/* Search Row */}
-          <div style={{ display: "flex", gap: 8 }}>
-            <input
-              type="text"
-              placeholder="search for flashcards"
-              style={{
-                flex: 1,
-                padding: 10,
-                fontSize: 16,
-                border: "1px solid #ccc",
-                borderRadius: 4
-              }}
-            />
-            <button style={{ padding: "10px 16px", fontSize: 25, cursor: "pointer" }}>
-               <PiMagnifyingGlassBold />
-            </button>
-             <div>
-            <button onClick={goCreate} style={{ padding: "10px 16px", fontSize: 25, cursor: "pointer" }}>
-              Create <PiPlusBold />
-            </button>
-          </div>
-          </div>
-
-         
+      <div
+        style={{
+          maxWidth: 500,
+          width: "100%",
+          margin: "auto",
+          padding: "20px",
+          boxSizing: "border-box",
+          display: "flex",
+          flexDirection: "column",
+          gap: 20,
+        }}
+      >
+        {/* Search Row */}
+        <div
+          style={{
+            display: "flex",
+            flexWrap: "wrap",
+            gap: 10,
+            justifyContent: "space-between",
+          }}
+        >
+          <input
+            type="text"
+            placeholder="Search flashcards"
+            style={{
+              flex: 1,
+              minWidth: "60%",
+              padding: "10px",
+              fontSize: "16px",
+              border: "1px solid #ccc",
+              borderRadius: 8,
+            }}
+          />
+          <button
+            style={{
+              padding: "10px 16px",
+              fontSize: 20,
+              borderRadius: 8,
+              border: "none",
+              background: "#8bf3cfff",
+              cursor: "pointer",
+              display: "flex",
+              alignItems: "center",
+              justifyContent: "center",
+              gap: 6,
+            }}
+          >
+            <PiMagnifyingGlassBold />
+          </button>
+          <button
+            onClick={goCreate}
+            style={{
+              padding: "10px 16px",
+              fontSize: 20,
+              borderRadius: 8,
+              border: "none",
+              background: "#16dda2ff",
+              cursor: "pointer",
+              display: "flex",
+              alignItems: "center",
+              justifyContent: "center",
+              gap: 6,
+              flexGrow: 1,
+            }}
+          >
+            Create <PiPlusBold />
+          </button>
         </div>
-        </div>
+      </div>
+    </div>
   );
 }
 
