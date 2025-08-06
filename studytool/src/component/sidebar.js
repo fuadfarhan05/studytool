@@ -17,7 +17,7 @@ const menuItems = [
 ];
 
 function Sidebar() {
-  const [open, setOpen] = useState(true);
+  const [open, setOpen] = useState(false);
   const navigate = useNavigate();
 
   return (
