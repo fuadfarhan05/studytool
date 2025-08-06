@@ -22,9 +22,9 @@ function StudioNavbar() {
       className="studio-navbar"
       style={{
         position: "fixed",
-        top: 1150,
         left: 0,
         width: "100vw",
+        height: 100,
         background: "#23272f",
         display: "flex",
         justifyContent: "space-around",

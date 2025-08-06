@@ -41,12 +41,12 @@ function CreateCards() {
       maxWidth: 500,
       margin: "auto",
       padding: "24px 16px",
+      overflowX: "auto",
       display: "flex",
       flexDirection: "column",
       gap: "16px",
       minHeight: "100vh",
     }}>
-      <StudioSidebar />
 
       <h2 style={{ textAlign: "center" }}>Lense Studio</h2>
       <p style={{ textAlign: "center" }}>
@@ -191,6 +191,7 @@ function CreateCards() {
           <p style={{ marginTop: 20, textAlign: "center" }}>No cards yet.</p>
         )}
       </div>
+      <StudioSidebar />
     </div>
   );
 }
