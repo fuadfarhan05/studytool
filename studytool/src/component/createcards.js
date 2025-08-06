@@ -151,10 +151,21 @@ function CreateCards() {
             <button
               onClick={() => handleFlip(currentCardIndex)}
               className="flip-button"
+              style={{
+                marginTop: 8,
+                padding: "10px 20px",
+                borderRadius: 10,
+                fontWeight: "bold",
+                background: "#8bfcb6",
+                color: "#222",
+                border: "none",
+                cursor: "pointer"
+              }}
             >
               Flip
             </button>
-            <div style={{ display: "flex", gap: 10 }}>
+
+            <div style={{ display: "flex", gap: 10, marginTop: 8 }}>
               <button
                 onClick={handlePrev}
                 disabled={currentCardIndex === 0}
