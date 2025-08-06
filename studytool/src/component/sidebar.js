@@ -33,7 +33,7 @@ function Sidebar() {
           transition: "left 0.3s",
           borderRadius: 8,
           padding: "8px 12px",
-          background: open ? "rgba(231, 225, 225, 0.3)" : "rgba(25, 61, 37, 0.3)",
+          background: open ? "rgba(231, 225, 225, 0.3)" : "rgba(161, 242, 188, 0.3)",
           backdropFilter: "blur(10px)",
           WebkitBackdropFilter: "blur(10px)",
           border: "1px solid rgba(255, 255, 255, 0.2)",
