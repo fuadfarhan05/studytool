@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import "../App.css";
-
+import StudioSidebar from "./studiosidebar";
 
 function CreateCards() {
   const [front, setFront] = useState("");
@@ -17,6 +17,8 @@ function CreateCards() {
 
   return (
     <div style={{ maxWidth: 400, margin: "auto", padding: 24 }}>
+      <StudioSidebar />
+
       <h2>Lense Studio</h2>
       <h3>Welcome to Lense Studio! In here you can create your own Flashcards deck to study AND share your flashcards deck to the community page for others to use for practice.</h3>
       <input

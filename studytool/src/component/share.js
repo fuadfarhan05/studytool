@@ -1,5 +1,5 @@
 import React from "react";
-import { PiCopySimpleThin } from "react-icons/pi";
+import { PiCopySimpleThin, PiXCircleBold } from "react-icons/pi";
 import { HiClipboardCopy } from "react-icons/hi";
 import { PiCheckThin } from "react-icons/pi";
 
@@ -62,7 +62,7 @@ function Share({ roomCode, onClose }) {
         </button>
         </div>
        
-        <button className="close-button" onClick={onClose}>Close</button>
+        <button className="close-button" onClick={onClose}><PiXCircleBold/></button>
       </div>
     </div>
   );

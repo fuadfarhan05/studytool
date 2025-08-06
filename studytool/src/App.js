@@ -7,13 +7,14 @@ import StudyTable from './pages/studytable';
 import Flashcard from './pages/flashcard';
 import Upload from './pages/upload';
 import CreateCards from './component/createcards';
+import MyStuff from './component/mystuff';
 
 function App() {
   return (
     <Router>
       <div className="App">
         <header className="App-header">
-          <img src="LENSE.png"></img>
+          <img alt="" src="LENSE.png"></img>
           <Routes>
             <Route path="/" element={<Login />} />
             <Route path="/dashboard" element={<Dashboard />} />
@@ -21,6 +22,7 @@ function App() {
             <Route path="/flashcards" element={<Flashcard />} />
             <Route path="/upload" element={<Upload />} />
             <Route path="/createcards" element={<CreateCards />} />
+            <Route path="/mystuff" element={<MyStuff />} />
           </Routes>
         </header>
       </div>

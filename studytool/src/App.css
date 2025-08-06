@@ -548,7 +548,7 @@ li.task-list.completed {
   right: 20px;
   background: transparent;
   border: none;
-  font-size: 15px;
+  font-size: 25px;
   color: #e13232;
   cursor: pointer;
 }

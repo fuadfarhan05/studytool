@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import "../App.css";
-import { PiMoonThin, PiCheckCircleThin, PiHamburgerThin, PiHeartThin, PiXCircleThin } from "react-icons/pi";
+import { PiMoonThin, PiCheckCircleThin, PiHamburgerThin, PiHeartThin, PiXCircleThin, PiXCircleBold } from "react-icons/pi";
 import { getAuth } from "firebase/auth";
 import { doc, getDoc, setDoc } from "firebase/firestore";
 import { db } from "../firebase/auth";
@@ -65,7 +65,7 @@ function Interact({roomCode, onClose, onSelectEmote }) {
         </div>
       </div>
 
-      <button className="close-button" onClick={onClose}>Close</button>
+      <button className="close-button" onClick={onClose}><PiXCircleBold/></button>
     </div>
   );
 }
