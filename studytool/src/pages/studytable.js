@@ -14,7 +14,6 @@ import {
 import { db } from "../firebase/auth";
 import { getAuth } from "firebase/auth";
 import { deleteDoc } from "firebase/firestore";
-
 import {
   PiMoonThin,
   PiCheckCircleThin,
