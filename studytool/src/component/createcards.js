@@ -41,7 +41,7 @@ function CreateCards() {
       maxWidth: 500,
       margin: "auto",
       padding: "24px 16px",
-      overflowX: "auto",
+      overflowY: "auto",
       display: "flex",
       flexDirection: "column",
       gap: "16px",
