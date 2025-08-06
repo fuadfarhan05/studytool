@@ -1,75 +1,68 @@
-import React, { useState } from "react";
+import React from "react";
 import {
   HiPlus,
   HiUserCircle,
 } from "react-icons/hi";
-import { PiXCircleBold } from "react-icons/pi";
 import { useNavigate } from "react-router-dom";
 import "../App.css";
+import SideBar from "./sidebar";
 
 const menuItems = [
   { icon: HiPlus, label: "Create", route: "/createcards" },
   { icon: HiUserCircle, label: "MyStuff", route: "/mystuff" },
 ];
 
-function StudioSidebar() {
-  const [open, setOpen] = useState(true);
+function StudioNavbar() {
   const navigate = useNavigate();
 
   return (
-    <>
-      <button
-        className="sidebar-toggle"
-        onClick={() => setOpen((prev) => !prev)}
-        style={{
-          position: "fixed",
-          top: 20,
-          left: open ? 220 : 20,
-          zIndex: 1001,
-          transition: "left 0.3s",
-          borderRadius: 8,
-          padding: "8px 12px",
-          background: open ? "#e7e1e1ff" : "#193d25ff",
-          color: open ? "#ec3e38ff": "#8bfcb6",
-          border: "none",
-          cursor: "pointer",
-          marginTop: 80,
-        }}
-      >
-        {open ? <PiXCircleBold/> : "Options"}
-      </button>
-      <div
-        className="sidebar"
-        style={{
-          width: open ? 200 : 0,
-          overflow: "hidden",
-          transition: "width 0.3s",
-          position: "fixed",
-          top: 0,
-          left: 0,
-          height: "100vh",
-          background: "#292b49ff",
-          zIndex: 1000,
-        }}
-      >
-        <ul className="sidebar-items" style={{ padding: open ? "20px 0" : 0 }}>
-          {open &&
-            menuItems.map((item, index) => (
-              <li
-                key={index}
-                className="sidebar-item"
-                style={{ cursor: "pointer" }}
-                onClick={() => navigate(item.route)}
-              >
-                <item.icon className="sidebar-icon" />
-                <span className="sidebar-label">{item.label}</span>
-                {item.badge && <span className="sidebar-badge">{item.badge}</span>}
-              </li>
-            ))}
-        </ul>
-      </div>
-    </>
+    <div>
+      
+    <nav
+      className="studio-navbar"
+      style={{
+        position: "fixed",
+        top: 650,
+        left: 0,
+        width: "100vw",
+        background: "#23272f",
+        display: "flex",
+        justifyContent: "space-around",
+        alignItems: "center",
+        padding: "10px 0",
+        zIndex: 1000,
+      }}
+    >
+      {menuItems.map((item, index) => (
+        <button
+          key={index}
+          className="studio-navbar-item"
+          style={{
+            width: "400px",
+            margin: "10px",
+            background: "rgba(255, 255, 255, 0.1)", // semi-transparent white
+            border: "1px solid rgba(255, 255, 255, 0.2)",
+            backdropFilter: "blur(10px)", // this creates the glass blur
+            WebkitBackdropFilter: "blur(10px)", // for Safari
+            boxShadow: "0 4px 30px rgba(0, 0, 0, 0.1)",
+            borderRadius: "12px",
+            color: "#8bfcb6",
+            cursor: "pointer",
+            display: "flex",
+            flexDirection: "column",
+            alignItems: "center",
+            padding: "1rem", // optional for spacing
+          }}
+          onClick={() => navigate(item.route)}
+        >
+          <item.icon size={32} />
+          <span style={{ fontSize: 14, marginTop: 4 }}>{item.label}</span>
+        </button>
+      ))}
+    </nav>
+    <SideBar />
+    </div>
   );
 }
 
-export default StudioSidebar;
+export default StudioNavbar;
