@@ -41,6 +41,7 @@ function CreateCards() {
       maxWidth: 500,
       margin: "auto",
       padding: "24px 16px",
+       overflowX: "hidden", 
       overflowY: "auto",
       display: "flex",
       flexDirection: "column",
@@ -80,7 +81,7 @@ function CreateCards() {
         value={front}
         onChange={(e) => setFront(e.target.value)}
         style={{
-          width: "100%",
+          width: "90%",
           padding: 10,
           borderRadius: 10,
           border: "1px solid #ccc",
@@ -92,7 +93,7 @@ function CreateCards() {
         value={back}
         onChange={(e) => setBack(e.target.value)}
         style={{
-          width: "100%",
+          width: "90%",
           padding: 10,
           borderRadius: 10,
           border: "1px solid #ccc",
@@ -129,11 +130,12 @@ function CreateCards() {
             <div
               className="flip-card"
               style={{
-                width: "100%",
+                width: "90%",
                 height: "200px",
                 perspective: "1000px",
                 position: "relative",
               }}
+              onClick={() => handleFlip(currentCardIndex)}
             >
               <div
                 className={`flip-card-inner ${
@@ -148,22 +150,7 @@ function CreateCards() {
                 </div>
               </div>
             </div>
-            <button
-              onClick={() => handleFlip(currentCardIndex)}
-              className="flip-button"
-              style={{
-                marginTop: 8,
-                padding: "10px 20px",
-                borderRadius: 10,
-                fontWeight: "bold",
-                background: "#8bfcb6",
-                color: "#222",
-                border: "none",
-                cursor: "pointer"
-              }}
-            >
-              Flip
-            </button>
+            
 
             <div style={{ display: "flex", gap: 10, marginTop: 8 }}>
               <button
@@ -177,6 +164,7 @@ function CreateCards() {
                   color: "#222429",
                   border: "none",
                   cursor: "pointer",
+                  marginBottom: 40
                 }}
               >
                 ◀ Prev
@@ -192,6 +180,7 @@ function CreateCards() {
                   color: "#222429",
                   border: "none",
                   cursor: "pointer",
+                  marginBottom: 40
                 }}
               >
                 Next ▶

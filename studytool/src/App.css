@@ -679,6 +679,7 @@ img {
 }
 
 .flip-card {
+  height: 300px;
   perspective: 1000px;
   margin-bottom: 20px;
   text-align: center;
@@ -687,7 +688,7 @@ img {
 .flip-card-inner {
   position: relative;
   width: 100%;
-  min-height: 100px;
+  min-height: 300px;
   transition: transform 0.6s;
   transform-style: preserve-3d;
 }
