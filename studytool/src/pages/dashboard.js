@@ -94,6 +94,8 @@ function Dashboard() {
       <Sidebar />
       <header className="App-header">
         <h3>Welcome, {name}</h3>
+        <p>here is a to do list to track your progress! </p>
+        <p>click option for study with friends feature</p>
       </header>
 
       <div className="dashboard-card">

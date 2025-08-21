@@ -10,10 +10,8 @@ import { useNavigate } from "react-router-dom";
 import "../App.css";
 
 const menuItems = [
-  { icon: HiClipboardCheck, label: "Dashboard", route: "/dashboard" },
-  { icon: HiArrowCircleDown, label: "Upload", route: "/upload" },
-  { icon: HiOutlineColorSwatch, label: "Flashcards", route: "/flashcards" },
-  { icon: HiBookOpen, label: "Study Tables", route: "/studytable" },
+  { icon: HiClipboardCheck, label: "To-Do List", route: "/dashboard" },
+  { icon: HiBookOpen, label: "Study With Friends", route: "/studytable" },
 ];
 
 function Sidebar() {
