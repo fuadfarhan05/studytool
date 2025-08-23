@@ -3,7 +3,7 @@ import {
   HiArrowCircleDown,
   HiClipboardCheck,
   HiBookOpen,
-  HiOutlineColorSwatch,
+  HiOutlineUpload
 } from "react-icons/hi";
 import { PiCopySimpleThin, PiXCircleBold } from "react-icons/pi";
 import { useNavigate } from "react-router-dom";
@@ -11,8 +11,8 @@ import "../App.css";
 
 const menuItems = [
   { icon: HiClipboardCheck, label: "To-Do List", route: "/dashboard" },
-  { icon: HiBookOpen, label: "Study With Friends", route: "/studytable" },
-   { icon: HiBookOpen, label: "Upload", route: "https://lensestudy.vercel.app/" },
+  { icon: HiBookOpen, label: "Share Study", route: "/studytable" },
+   { icon: HiOutlineUpload, label: "Study Guides", route: "https://lensestudy.vercel.app/" },
 
 ];
 
