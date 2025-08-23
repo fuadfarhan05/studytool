@@ -12,6 +12,8 @@ import "../App.css";
 const menuItems = [
   { icon: HiClipboardCheck, label: "To-Do List", route: "/dashboard" },
   { icon: HiBookOpen, label: "Study With Friends", route: "/studytable" },
+   { icon: HiBookOpen, label: "Upload", route: "https://lensestudy.vercel.app/" },
+
 ];
 
 function Sidebar() {
@@ -66,12 +68,19 @@ function Sidebar() {
                 key={index}
                 className="sidebar-item"
                 style={{ cursor: "pointer" }}
-                onClick={() => navigate(item.route)}
+                onClick={() => {
+                  if (item.route.startsWith("http")) {
+                    window.open(item.route, "_blank", "noopener,noreferrer"); // 🔹 opens external links in new tab
+                  } else {
+                    navigate(item.route); // 🔹 internal routes still use react-router
+                  }
+                }}
               >
                 <item.icon className="sidebar-icon" />
                 <span className="sidebar-label">{item.label}</span>
                 {item.badge && <span className="sidebar-badge">{item.badge}</span>}
               </li>
+
             ))}
         </ul>
       </div>
