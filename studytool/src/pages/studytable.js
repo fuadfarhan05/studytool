@@ -245,6 +245,7 @@ function StudyTable() {
   return (
     <div className="study-table" style={{ maxWidth: 600, margin: "auto", padding: 20 }}>
       <Sidebar />
+      <img className="lenseimg" alt="" src="Lenseshare.png"></img>
       <h2>Create a virtual study room and share with your friends!</h2>
 
       <div style={{ marginTop: 30, width: "100%", textAlign: "center" }}>

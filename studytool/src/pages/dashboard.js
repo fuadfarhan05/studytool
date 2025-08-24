@@ -92,7 +92,9 @@ function Dashboard() {
     <div className={`App ${darkMode ? "dark" : ""}`}>
       <button className="logout-button" onClick={handleLogout}>Log Out</button>
       <Sidebar />
+
       <header className="App-header">
+        <img className="lenseimg" alt="" src="lensetodo.png"></img>
         <h3>Welcome, {name}</h3>
         <p>here is a to do list to track your progress! </p>
         <p>click option for study with friends feature</p>
@@ -107,7 +109,7 @@ function Dashboard() {
       </div>
 
       <div className="task-list">
-        <h3>You are studying...</h3>
+        <h3>You are working on...</h3>
         <ul>
           <AnimatePresence>
             {tasks.filter(task => !task.completed).map((task) => (
