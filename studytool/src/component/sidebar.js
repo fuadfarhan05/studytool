@@ -12,7 +12,7 @@ import "../App.css";
 const menuItems = [
   { icon: HiClipboardCheck, label: "To-Do List", route: "/dashboard" },
   { icon: HiBookOpen, label: "Share Study", route: "/studytable" },
-   { icon: HiOutlineUpload, label: "Study Guides", route: "https://lensestudy.vercel.app/" },
+   { icon: HiOutlineUpload, label: "Study Guides", route: "https://lensereview.vercel.app/" },
 
 ];
 
