@@ -5,15 +5,9 @@ import { HiArrowTopRightOnSquare } from "react-icons/hi2";
 import { HiServer } from "react-icons/hi";
 import Share from "../component/share";
 import Interact from "../component/interact";
-import {
-  doc,
-  setDoc,
-  getDoc,
-  onSnapshot,
-} from "firebase/firestore";
+import { doc, setDoc, getDoc, onSnapshot, deleteDoc } from "firebase/firestore";
 import { db } from "../firebase/auth";
 import { getAuth } from "firebase/auth";
-import { deleteDoc } from "firebase/firestore";
 import {
   PiMoonThin,
   PiCheckCircleThin,
@@ -42,21 +36,25 @@ function StudyTable() {
 
   const auth = getAuth();
   const user = auth.currentUser;
-
   const timerRef = useRef(null);
-
   const memberColors = ["#58f895ff", "#39b7f7ff", "#faec5bff", "#e814baff"];
 
+  // Restore room from localStorage
   useEffect(() => {
+    const savedRoom = localStorage.getItem("currentRoom");
+    if (savedRoom) {
+      setCurrentRoom(savedRoom);
+      setRoomCode(savedRoom);
+      attachRoomListener(savedRoom);
+    }
+
     return () => clearInterval(timerRef.current);
   }, []);
 
   const generateRoomCode = () => {
     const chars = "ABCDEFGHIJKLMNPQRSTUVWXYZ123456789";
     let code = "";
-    for (let i = 0; i < 6; i++) {
-      code += chars.charAt(Math.floor(Math.random() * chars.length));
-    }
+    for (let i = 0; i < 6; i++) code += chars.charAt(Math.floor(Math.random() * chars.length));
     return code;
   };
 
@@ -73,11 +71,8 @@ function StudyTable() {
         const endTime = data.timer.startTime + data.timer.duration * 1000;
         const remaining = Math.floor((endTime - now) / 1000);
 
-        if (remaining > 0) {
-          startLocalTimer(remaining);
-        } else {
-          stopTimer(false);
-        }
+        if (remaining > 0) startLocalTimer(remaining);
+        else stopTimer(false);
       } else {
         stopTimer(false);
       }
@@ -100,37 +95,16 @@ function StudyTable() {
         createdAt: new Date().toISOString(),
       });
 
-      alert(`Room created with code: ${code}`);
+      localStorage.setItem("currentRoom", code);
       setRoomCode(code);
       setCurrentRoom(code);
       attachRoomListener(code);
+
+      alert(`Room created with code: ${code}`);
     } catch (error) {
       console.error("Error creating room:", error);
       alert("Failed to create room: " + error.message);
     }
-  };
-
-  const handleLeaveRoom = async () => {
-    if (!user || !currentRoom) return;
-
-    const roomRef = doc(db, "rooms", currentRoom);
-    const roomSnap = await getDoc(roomRef);
-
-    if (!roomSnap.exists()) return;
-    const roomData = roomSnap.data();
-    let updatedMembers = (roomData.members || []).filter((m) => m.uid !== user.uid);
-
-    if (updatedMembers.length === 0) {
-      await deleteDoc(roomRef);
-    } else {
-      await setDoc(roomRef, { ...roomData, members: updatedMembers }, { merge: true });
-    }
-
-    setCurrentRoom(null);
-    setMembers([]);
-    setRoomCode("");
-    stopTimer(false);
-    alert("You left. Join another when you're ready!");
   };
 
   const handleJoinRoom = async () => {
@@ -149,7 +123,6 @@ function StudyTable() {
 
     try {
       const roomSnap = await getDoc(roomRef);
-
       if (!roomSnap.exists()) {
         alert("Room not found.");
         return;
@@ -169,13 +142,39 @@ function StudyTable() {
         await setDoc(roomRef, { ...roomData, members }, { merge: true });
       }
 
-      alert(`Joined room: ${code}`);
+      localStorage.setItem("currentRoom", code);
       setCurrentRoom(code);
       attachRoomListener(code);
+
+      alert(`Joined room: ${code}`);
     } catch (error) {
       console.error("Error joining room:", error);
       alert("Failed to join room: " + error.message);
     }
+  };
+
+  const handleLeaveRoom = async () => {
+    if (!user || !currentRoom) return;
+
+    const roomRef = doc(db, "rooms", currentRoom);
+    const roomSnap = await getDoc(roomRef);
+
+    if (!roomSnap.exists()) return;
+    const roomData = roomSnap.data();
+    const updatedMembers = (roomData.members || []).filter((m) => m.uid !== user.uid);
+
+    if (updatedMembers.length === 0) {
+      await deleteDoc(roomRef);
+    } else {
+      await setDoc(roomRef, { ...roomData, members: updatedMembers }, { merge: true });
+    }
+
+    localStorage.removeItem("currentRoom");
+    setCurrentRoom(null);
+    setMembers([]);
+    setRoomCode("");
+    stopTimer(false);
+    alert("You left the room.");
   };
 
   const startLocalTimer = (duration) => {
@@ -206,11 +205,7 @@ function StudyTable() {
       await setDoc(
         roomRef,
         {
-          timer: {
-            startTime: startTime,
-            duration: duration,
-            active: true,
-          },
+          timer: { startTime, duration, active: true },
         },
         { merge: true }
       );
@@ -225,11 +220,7 @@ function StudyTable() {
       const roomRef = doc(db, "rooms", currentRoom);
       await setDoc(
         roomRef,
-        {
-          timer: {
-            active: false,
-          },
-        },
+        { timer: { active: false } },
         { merge: true }
       );
     }
@@ -245,7 +236,7 @@ function StudyTable() {
   return (
     <div className="study-table" style={{ maxWidth: 600, margin: "auto", padding: 20 }}>
       <Sidebar />
-      <img className="lenseimg" alt="" src="Lenseshare.png"></img>
+      <img className="lenseimg" alt="" src="Lenseshare.png" />
       <h2>Create a virtual study room and share with your friends!</h2>
 
       <div style={{ marginTop: 30, width: "100%", textAlign: "center" }}>
@@ -286,7 +277,6 @@ function StudyTable() {
             backgroundImage: `url('https://www.transparenttextures.com/patterns/wood-pattern.png')`,
             borderRadius: "50%",
             backgroundColor: "#2e2c2aff",
-            borderColor: "#afa99dff",
             border: "5px solid #ccc",
             marginBottom: 40,
           }}
@@ -322,65 +312,40 @@ function StudyTable() {
                   }}
                 />
 
-                {member.uid === user?.uid ? (
-                  <>
-                    {emoteObj && emoteObj.label !== "" && (
-                    <div style={
-                      {
-                        position: "absolute",
-                        bottom: "60px",
-                        left: "50%",
-                        transform: "translateX(-50%)",
-                        backgroundColor: "rgba(255, 255, 255, 0.15)",
-                        backdropFilter: "blur(10px)",
-                        WebkitBackdropFilter: "blur(10px)",
-                        borderRadius: "20px",
-                        padding: "6px 10px",
-                        fontSize: "10px",
-                        color: "#fff",
-                        boxShadow: "0 4px 16px rgba(0, 0, 0, 0.25)",
-                        whiteSpace: "nowrap",
-                        border: "1px solid rgba(255, 255, 255, 0.3)",
-                        marginBottom: "30px",
-                        }
-                        }>
-                             {emoteObj.label} {emoteObj.icon}
-                          </div>
-                        )}
-                    <span
-                      style={{ fontSize: 12, fontWeight: "bold", color: "#12bee5ff", marginTop: 6 }}
-                    >
-                      You
-                    </span>
-                  </>
-                ) : (
-                  emoteObj && (
-                    <div
-                      style={{
-                        position: "absolute",
-                        bottom: "60px",
-                        left: "50%",
-                        transform: "translateX(-50%)",
-                        backgroundColor: "rgba(255, 255, 255, 0.15)",
-                        backdropFilter: "blur(10px)",
-                        WebkitBackdropFilter: "blur(10px)",
-                        borderRadius: "20px",
-                        padding: "6px 10px",
-                        fontSize: "10px",
-                        color: "#fff",
-                        boxShadow: "0 4px 16px rgba(0, 0, 0, 0.25)",
-                        whiteSpace: "nowrap",
-                        border: "1px solid rgba(255, 255, 255, 0.3)"
-                      }}
-
-                    >
-                      {emoteObj.label} {emoteObj.icon}
-                    </div>
-                  )
+                {emoteObj && emoteObj.label !== "" && (
+                  <div
+                    style={{
+                      position: "absolute",
+                      bottom: "60px",
+                      left: "50%",
+                      transform: "translateX(-50%)",
+                      backgroundColor: "rgba(255, 255, 255, 0.15)",
+                      backdropFilter: "blur(10px)",
+                      WebkitBackdropFilter: "blur(10px)",
+                      borderRadius: "20px",
+                      padding: "6px 10px",
+                      fontSize: "10px",
+                      color: "#fff",
+                      boxShadow: "0 4px 16px rgba(0, 0, 0, 0.25)",
+                      whiteSpace: "nowrap",
+                      border: "1px solid rgba(255, 255, 255, 0.3)",
+                      marginBottom: "30px",
+                    }}
+                  >
+                    {emoteObj.icon} {emoteObj.label}
+                  </div>
                 )}
 
-                <span style={{ fontSize: 12, fontWeight: "bold", color: "#9ed6c4ff", marginTop: 6 }}>
+                <span
+                  style={{
+                    fontSize: 12,
+                    fontWeight: "bold",
+                    color: member.uid === user?.uid ? "#12bee5ff" : "#9ed6c4ff",
+                    marginTop: 6,
+                  }}
+                >
                   {member.displayName || member.name || "Unknown"}
+                  {member.uid === user?.uid && " (You)"}
                 </span>
               </div>
             );
