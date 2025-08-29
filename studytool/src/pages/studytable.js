@@ -372,7 +372,6 @@ function StudyTable() {
             onSelectEmote={(emote) => setMyEmote(emote)}
           />
         )}
-
         {showShareModal && <Share roomCode={roomCode} onClose={() => setShowShareModal(false)} />}
       </div>
     </div>
