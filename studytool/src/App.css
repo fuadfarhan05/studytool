@@ -361,16 +361,6 @@ li.task-list.completed {
   background: rgba(0, 0, 0, 0.2);
 }
 
-.share-modal {
-  text-align: center;
-  padding: 2rem;
-  background-color: #1e1e2f;
-  border-radius: 20px;
-  color: rgb(255, 255, 255);
-  max-width: 400px;
-  margin: 0 auto;
-  position: relative;
-}
 
 .emote-wheel {
   position: relative;
@@ -420,18 +410,17 @@ li.task-list.completed {
   position: absolute;
   width: 120px;
   height: 120px;
-  background: rgba(255, 255, 255, 0.15);
-  backdrop-filter: blur(10px);
-  -webkit-backdrop-filter: blur(10px);
-  color: #ffffff;
-  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.08);
+  backdrop-filter: blur(20px) saturate(180%);
+  -webkit-backdrop-filter: blur(20px) saturate(180%);
+  border: 1px solid rgba(255, 255, 255, 0.624);
+  border-radius: 20px;
+  color: #fff;
   display: flex;
   align-items: center;
   justify-content: center;
   font-weight: bold;
   font-size: 1rem;
-  border: 1px solid rgba(255, 255, 255, 0.3);
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
 }
 
 
@@ -514,13 +503,14 @@ li.task-list.completed {
   left: 50%;
   transform: translate(-50%, -50%) scale(1);
   background: rgba(255, 255, 255, 0.08);
+  backdrop-filter: blur(20px) saturate(180%);
+  -webkit-backdrop-filter: blur(20px) saturate(180%);
+  border-radius: 20px;
   color: #f3f3f3;
   width: 90%;
   max-width: 500px;
   padding: 2rem 1.5rem;
-  border-radius: 20px;
   box-shadow: 0 6px 24px rgba(0, 0, 0, 0.5);
-  backdrop-filter: blur(20px);
   z-index: 1000;
   display: flex;
   flex-direction: column;
@@ -551,10 +541,6 @@ li.task-list.completed {
   font-size: 25px;
   color: #e13232;
   cursor: pointer;
-}
-.close-button:hover {
-  color: #f4cdcd;
-  transform: scale(1.1);
 }
 
 

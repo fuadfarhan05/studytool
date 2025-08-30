@@ -12,7 +12,7 @@ function Login() {
   const handleGoogleSignIn = async () => {
     try {
       await signInWithGoogle();
-      navigate("/dashboard"); 
+      navigate("/studytable"); 
     } catch (err) {
       setError("Google sign-in failed.");
     }

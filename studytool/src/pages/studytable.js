@@ -1,13 +1,13 @@
 import React, { useState, useRef, useEffect } from "react";
-import Sidebar from "../component/sidebar";
 import "../App.css";
+import { useNavigate } from "react-router-dom";
 import { HiArrowTopRightOnSquare } from "react-icons/hi2";
 import { HiServer } from "react-icons/hi";
 import Share from "../component/share";
 import Interact from "../component/interact";
 import { doc, setDoc, getDoc, onSnapshot, deleteDoc } from "firebase/firestore";
 import { db } from "../firebase/auth";
-import { getAuth } from "firebase/auth";
+import { getAuth, signOut } from "firebase/auth";
 import {
   PiMoonThin,
   PiCheckCircleThin,
@@ -33,6 +33,8 @@ function StudyTable() {
   const [showShareModal, setShowShareModal] = useState(false);
   const [showInteract, setShowInteract] = useState(false);
   const [myEmote, setMyEmote] = useState(null);
+  const navigate = useNavigate();
+
 
   const auth = getAuth();
   const user = auth.currentUser;
@@ -78,6 +80,11 @@ function StudyTable() {
       }
     });
   };
+
+  const handleLogout = async () => {
+      await signOut(auth);
+      navigate("/");
+    };
 
   const handleCreateRoom = async () => {
     if (!user) {
@@ -235,7 +242,7 @@ function StudyTable() {
 
   return (
     <div className="study-table" style={{ maxWidth: 600, margin: "auto", padding: 20 }}>
-      <Sidebar />
+      <button className="logout-button" onClick={handleLogout}>Log Out</button>
       <img className="lenseimg" alt="" src="Lenseshare.png" />
       <h2>Create a virtual study room and share with your friends!</h2>
 
