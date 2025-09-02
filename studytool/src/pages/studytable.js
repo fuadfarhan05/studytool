@@ -5,6 +5,8 @@ import { HiArrowTopRightOnSquare } from "react-icons/hi2";
 import { HiServer } from "react-icons/hi";
 import Share from "../component/share";
 import Interact from "../component/interact";
+import MyProfile from "../component/myprofile";
+import Connect from "../component/connect";
 import { doc, setDoc, getDoc, onSnapshot, deleteDoc } from "firebase/firestore";
 import { db } from "../firebase/auth";
 import { getAuth, signOut } from "firebase/auth";
@@ -31,10 +33,11 @@ function StudyTable() {
   const [currentRoom, setCurrentRoom] = useState(null);
   const [members, setMembers] = useState([]);
   const [showShareModal, setShowShareModal] = useState(false);
+  const [showMyProfile, setShowMyProfile] = useState(false);
   const [showInteract, setShowInteract] = useState(false);
+  const [showConnect, setShowConnect] = useState(false);
   const [myEmote, setMyEmote] = useState(null);
   const navigate = useNavigate();
-
 
   const auth = getAuth();
   const user = auth.currentUser;
@@ -56,8 +59,14 @@ function StudyTable() {
   const generateRoomCode = () => {
     const chars = "ABCDEFGHIJKLMNPQRSTUVWXYZ123456789";
     let code = "";
-    for (let i = 0; i < 6; i++) code += chars.charAt(Math.floor(Math.random() * chars.length));
+    for (let i = 0; i < 6; i++) {
+      code += chars.charAt(Math.floor(Math.random() * chars.length));
+    }
     return code;
+  };
+
+  const handleConnect = () => {
+    setShowConnect(true);
   };
 
   const attachRoomListener = (code) => {
@@ -82,9 +91,9 @@ function StudyTable() {
   };
 
   const handleLogout = async () => {
-      await signOut(auth);
-      navigate("/");
-    };
+    await signOut(auth);
+    navigate("/");
+  };
 
   const handleCreateRoom = async () => {
     if (!user) {
@@ -168,12 +177,18 @@ function StudyTable() {
 
     if (!roomSnap.exists()) return;
     const roomData = roomSnap.data();
-    const updatedMembers = (roomData.members || []).filter((m) => m.uid !== user.uid);
+    const updatedMembers = (roomData.members || []).filter(
+      (m) => m.uid !== user.uid
+    );
 
     if (updatedMembers.length === 0) {
       await deleteDoc(roomRef);
     } else {
-      await setDoc(roomRef, { ...roomData, members: updatedMembers }, { merge: true });
+      await setDoc(
+        roomRef,
+        { ...roomData, members: updatedMembers },
+        { merge: true }
+      );
     }
 
     localStorage.removeItem("currentRoom");
@@ -225,26 +240,33 @@ function StudyTable() {
 
     if (updateFirestore && currentRoom) {
       const roomRef = doc(db, "rooms", currentRoom);
-      await setDoc(
-        roomRef,
-        { timer: { active: false } },
-        { merge: true }
-      );
+      await setDoc(roomRef, { timer: { active: false } }, { merge: true });
     }
   };
 
   const formatTime = (seconds) => {
-    const h = Math.floor(seconds / 3600).toString().padStart(2, "0");
-    const m = Math.floor((seconds % 3600) / 60).toString().padStart(2, "0");
+    const h = Math.floor(seconds / 3600)
+      .toString()
+      .padStart(2, "0");
+    const m = Math.floor((seconds % 3600) / 60)
+      .toString()
+      .padStart(2, "0");
     const s = (seconds % 60).toString().padStart(2, "0");
     return `${h}:${m}:${s}`;
   };
 
   return (
-    <div className="study-table" style={{ maxWidth: 600, margin: "auto", padding: 20 }}>
-      <button className="logout-button" onClick={handleLogout}>Log Out</button>
+    <div
+      className="study-table"
+      style={{ maxWidth: 600, margin: "auto", padding: 20 }}
+    >
+      <button className="logout-button" onClick={handleLogout}>
+        Log Out
+      </button>
       <img className="lenseimg" alt="" src="Lenseshare.png" />
-      <h2>Create a virtual study room and share with your friends!</h2>
+      <h2 className="prompt">
+        Create a virtual study room and share with your friends!
+      </h2>
 
       <div style={{ marginTop: 30, width: "100%", textAlign: "center" }}>
         <input
@@ -257,7 +279,13 @@ function StudyTable() {
 
         <div
           className="join-create-buttons"
-          style={{ display: "flex", flexWrap: "wrap", justifyContent: "center", marginTop: 10, gap: "10px" }}
+          style={{
+            display: "flex",
+            flexWrap: "wrap",
+            justifyContent: "center",
+            marginTop: 10,
+            gap: "10px",
+          }}
         >
           <button onClick={handleJoinRoom}>Join Room</button>
           <button onClick={handleCreateRoom}>Create Room</button>
@@ -289,7 +317,9 @@ function StudyTable() {
           }}
         >
           {members.map((member, index) => {
-            const emoteObj = options.find((opt) => opt.label === member.status);
+            const emoteObj = options.find(
+              (opt) => opt.label === member.status
+            );
 
             const angle = (index / members.length) * 2 * Math.PI;
             const radius = 120;
@@ -313,7 +343,8 @@ function StudyTable() {
                     width: 50,
                     height: 50,
                     borderRadius: "50%",
-                    backgroundColor: memberColors[index % memberColors.length],
+                    backgroundColor:
+                      memberColors[index % memberColors.length],
                     border: "3px solid #fff",
                     boxShadow: "0 0 10px rgba(0,0,0,0.2)",
                   }}
@@ -347,7 +378,10 @@ function StudyTable() {
                   style={{
                     fontSize: 12,
                     fontWeight: "bold",
-                    color: member.uid === user?.uid ? "#12bee5ff" : "#9ed6c4ff",
+                    color:
+                      member.uid === user?.uid
+                        ? "#12bee5ff"
+                        : "#9ed6c4ff",
                     marginTop: 6,
                   }}
                 >
@@ -359,12 +393,36 @@ function StudyTable() {
           })}
         </div>
 
-        <div className="row" style={{ marginTop: 40, display: "flex", justifyContent: "center", gap: "10px" }}>
-          <button className="share-button" onClick={() => setShowShareModal(true)}>
-            share <HiArrowTopRightOnSquare />
+        <button
+          className="profile-button"
+          onClick={() => setShowMyProfile(true)}
+        >
+          My Profile
+        </button>
+        <button className="connect-button" onClick={handleConnect}>
+          Connect
+        </button>
+
+        <div
+          className="row"
+          style={{
+            marginTop: 40,
+            display: "flex",
+            justifyContent: "center",
+            gap: "10px",
+          }}
+        >
+          <button
+            className="share-button"
+            onClick={() => setShowShareModal(true)}
+          >
+            Share <HiArrowTopRightOnSquare />
           </button>
-          <button className="share-button" onClick={() => setShowInteract(true)}>
-            set emote <HiServer />
+          <button
+            className="interact-button"
+            onClick={() => setShowInteract(true)}
+          >
+            Set Emote <HiServer />
           </button>
         </div>
 
@@ -372,6 +430,20 @@ function StudyTable() {
           Leave Room
         </button>
 
+        {showMyProfile && (
+          <MyProfile
+            user={user}
+            roomCode={roomCode} // pass roomCode so notes save in the right room
+            onClose={() => setShowMyProfile(false)}
+          />
+        )}
+        {showConnect && (
+          <Connect
+            user={user}
+            roomCode={roomCode} // pass roomCode so it fetches the right notes
+            onClose={() => setShowConnect(false)}
+          />
+        )}
         {showInteract && (
           <Interact
             roomCode={roomCode}
@@ -379,7 +451,9 @@ function StudyTable() {
             onSelectEmote={(emote) => setMyEmote(emote)}
           />
         )}
-        {showShareModal && <Share roomCode={roomCode} onClose={() => setShowShareModal(false)} />}
+        {showShareModal && (
+          <Share roomCode={roomCode} onClose={() => setShowShareModal(false)} />
+        )}
       </div>
     </div>
   );
