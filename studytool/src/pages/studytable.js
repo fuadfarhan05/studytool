@@ -397,7 +397,7 @@ function StudyTable() {
           className="profile-button"
           onClick={() => setShowMyProfile(true)}
         >
-          My Profile
+          My Notes
         </button>
         <button className="connect-button" onClick={handleConnect}>
           Connect

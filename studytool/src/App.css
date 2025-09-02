@@ -687,6 +687,7 @@ li.task-list.completed {
   border-radius: 14px;
   transition: all 0.3s ease;
   box-shadow: 0 4px 18px rgba(0, 245, 160, 0.4);
+  margin-top: 15px;
 }
 .profile-button:hover {
   background: linear-gradient(to right, #e29aee, #9eeed7, #f4f190, #8bc3ee);
