@@ -400,7 +400,7 @@ function StudyTable() {
           My Notes
         </button>
         <button className="connect-button" onClick={handleConnect}>
-          Connect
+          Pass Notes
         </button>
 
         <div
